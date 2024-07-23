@@ -1,5 +1,5 @@
 # Classes
-##BaseModel
+## BaseModel
 
 ## Db_storage
 ## User
@@ -24,5 +24,5 @@
 ## Facilities
 * bed
 
-part1: BaseModel, User, Buidling (Antoine)
-part2: db_storage, student, facilities (Amadou)
+* part1: BaseModel, User, Buidling (Antoine)
+* part2: db_storage, student, facilities (Amadou)
