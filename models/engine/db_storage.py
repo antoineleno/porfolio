@@ -10,7 +10,7 @@ from models.base_model import Base
 from models.building import Building
 from models.user import User
 from models.student import Student
-from models.facility import Facility
+#from models.facility import Facility
 
 
 class DBStorage:
@@ -69,7 +69,14 @@ class DBStorage:
         Args:
             obj (instance): Obj created to be addred
         """
-        self.__session.add(obj)
+        if isinstance(obj, Student):
+            existing_count = self.__session.query(Student).filter(Building.room_id == Student.Room_ID).count()
+            if existing_count >= 4:
+                raise ValueError("Room_ID usage limit exceeded")
+            else:
+                self.__session.add(obj)
+        else:
+            self.__session.add(obj)
 
     def save(self):
         """save: method to commit changes to a db
