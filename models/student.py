@@ -13,7 +13,7 @@ class Student(BaseModel, Base):
     Student_name = Column(String(128), nullable=False)
     Student_ID = Column(String(128), nullable=False)
     Country = Column(String(128), nullable=False)
-    Room_ID = Column(CHAR(10), ForeignKey("buildings.room_id"), nullable=False)
+    Room_ID = Column(CHAR(10), ForeignKey("buildings.room_id", ondelete="CASCADE"), nullable=False)
     Zone = Column(CHAR(1), nullable=False)
 
     rooms = relationship("Building", back_populates="students")
@@ -22,4 +22,3 @@ class Student(BaseModel, Base):
         UniqueConstraint('Country', 'Room_ID', name='uq_country_room'),
         UniqueConstraint('Zone', 'Room_ID', name='uq_zone_room')
     )
-    
