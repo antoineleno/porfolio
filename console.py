@@ -24,7 +24,6 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class"""
         arguments = shlex.split(args)
         f_arguments = arguments[1:]
-        print(f_arguments)
         
         if not args:
             print("** class name missing **")
@@ -32,13 +31,29 @@ class HBNBCommand(cmd.Cmd):
         elif arguments[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = globals()[arguments[0]]()
-        for my_args in f_arguments:
-            key, value = my_args.split("=")
-            setattr(new_instance, key, value)
-        storage.new(new_instance)
-        storage.save()
-        print(new_instance.id)
+        build = storage.all(Building)
+        for key, obj in build.items():
+            i = 0
+            Zone = ['A', 'B', 'C', 'D']
+            while (i < 4):
+                record = globals()[arguments[0]]()
+                setattr(record, "Room_ID", obj.room_id)
+                setattr(record, "Zone", Zone[i])
+                storage.new(record)
+                i += 1
+                storage.save()
+        for key, obj in build.items():
+            record = globals()[arguments[0]]()
+            if not record.Student_name:
+                for my_args in f_arguments:
+                    key, value = my_args.split("=")
+                    setattr(record, key, value)
+                    storage.new(record)
+                    storage.save()
+    
+        #storage.new(new_instance)
+        #storage.save()
+        #print(new_instance.id)
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""

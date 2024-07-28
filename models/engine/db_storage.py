@@ -49,18 +49,18 @@ class DBStorage:
         allclasses = {"User": User,
                       "Building": Building,
                       "Student": Student,
-                      "Facility": Facility}
+                      }
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)
         if cls is None:
             for cls in allclasses:
                 objs = self.__session.query(cls).all()
                 for obj in objs:
-                    obj_result["{}.{}".format(obj.__name__, obj.id)] = obj
+                    obj_result["{}.{}".format(obj.__table__, obj.id)] = obj
         else:
             objs = self.__session.query(cls).all()
             for obj in objs:
-                obj_result["{}.{}".format(obj.__name__, obj.id)] = obj
+                obj_result["{}.{}".format(obj.__table__, obj.id)] = obj
         return obj_result
 
     def new(self, obj):
@@ -69,14 +69,14 @@ class DBStorage:
         Args:
             obj (instance): Obj created to be addred
         """
-        if isinstance(obj, Student):
+        """if isinstance(obj, Student):
             existing_count = self.__session.query(Student).filter(Building.room_id == Student.Room_ID).count()
             if existing_count >= 4:
                 raise ValueError("Room_ID usage limit exceeded")
             else:
                 self.__session.add(obj)
-        else:
-            self.__session.add(obj)
+        else:"""
+        self.__session.add(obj)
 
     def save(self):
         """save: method to commit changes to a db
