@@ -3,7 +3,7 @@
 DB storage module
 """
 
-import os
+from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
@@ -23,11 +23,11 @@ class DBStorage:
     def __init__(self):
         """Contructor method
         """
-        db_user = os.getenv("MYUSER")
-        db_password = os.getenv("MYPWD")
-        host = os.getenv("MYHOST")
-        db_name = os.getenv("MYDB")
-        env = os.getenv("MYENV")
+        db_user = getenv("CAMPUS_MYSQL_USER")
+        db_password = getenv("CAMPUS_MYSQL_PWD")
+        db_name = getenv("CAMPUS_MYSQL_DB")
+        host = getenv("CAMPUS_MYSQL_HOST")
+        env = getenv("CAMPUS_ENV")
 
         self.__engine = create_engine(
                     'mysql+mysqldb://{}:{}@{}/{}'
@@ -98,6 +98,12 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(factory)()
+
+    def all_room_id(self, block_name):
+        """Return the id of all the room in buildings"""
+        result = self.__session.query(Building.room_id).filter(Building.block_name == block_name).order_by(Building.room_id).all()
+        room_ids = [room_id[0] for room_id in result]
+        return room_ids
 
     def close(self):
         """close session

@@ -1,72 +1,125 @@
 #!/usr/bin/python3
-""" Console Module """
+"""
+console module
+"""
+
 import cmd
-import sys
+import models
 from models.base_model import BaseModel
-from models.__init__ import storage
-from models.user import User
-from models.building import Building
 from models.hostel import Hostel
+from models.building import Building
 from models.student import Student
+from models.user import User
+from models import storage
+
+
+import os
+import sys
 import shlex
 
-class HBNBCommand(cmd.Cmd):
-    """ Contains the functionality for the HBNB console"""
-
-    # determines prompt for interactive/non-interactive modes
-    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
+class CAMPUSCommand(cmd.Cmd):
+    """Console class"""
+    prompt = '(campus) ' if sys.__stdin__.isatty() else ''
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Building': Building,
-               'Hostel': Hostel, 'Student': Student
+               'BaseModel': BaseModel, 'User': User, 'Hostel': Hostel,
+               'Building': Building, 'Student': Student
               }
-   
-    def do_create(self, args):
-        """ Create an object of any class"""
-        arguments = shlex.split(args)
-        f_arguments = arguments[1:]
-        
-        if not args:
-            print("** class name missing **")
-            return
-        elif arguments[0] not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        build = storage.all(Building)
-        for key, obj in build.items():
-            i = 0
-            Zone = ['A', 'B', 'C', 'D']
-            while (i < 4):
-                record = globals()[arguments[0]]()
-                setattr(record, "Room_ID", obj.room_id)
-                setattr(record, "Zone", Zone[i])
-                storage.new(record)
-                i += 1
-                storage.save()
-        for key, obj in build.items():
-            record = globals()[arguments[0]]()
-            if not record.Student_name:
-                for my_args in f_arguments:
-                    key, value = my_args.split("=")
-                    setattr(record, key, value)
-                    storage.new(record)
-                    storage.save()
-    
-        #storage.new(new_instance)
-        #storage.save()
-        #print(new_instance.id)
 
-    def do_quit(self, command):
-        """ Method to exit the HBNB console"""
-        exit()
+    def do_quit(self, line):
+        """Quit command to exit the program"""
+        return True
 
-    def help_quit(self):
-        """ Prints the help documentation for quit  """
-        print("Exits the program with formatting\n")
+    def emptyline(self):
+        """Called when an empty line is entered"""
+        pass
 
-    def do_EOF(self, arg):
-        """ Handles EOF to exit program """
+    def do_EOF(self, line):
+        """Handle End-of-File (EOF) condition to exit the program gracefully"""
         print()
-        exit()
+        return True
+    
+    def do_create(self, args):
+        """ Create an object of any type
+        * Building: create Building hostel_id block_name number of level
+                        number of room per level number of student/room.
+                        hostel_id 1 for male and 2 for female
+            example: create Building hostel_id=1 block_name="25E" 4 14 4
+                To create building and student at the same time.
+        * User: create User fist_name last_name email password
+            example: create User Antoine LENO lenoantoine@gmail.com antoinepwd
+        * Hostel: create Hostel hostel_type(Male/Female)
+            example: create Hostel Male
+        """
 
-if __name__ == "__main__":
-    HBNBCommand().cmdloop()
+        arguments = shlex.split(args)
+        people_count = arguments[-1]
+
+        if arguments[0] == "Building":
+            del arguments[-1]
+            f_arguments = arguments[1:-2]
+    
+            name = arguments[2].split('=')[1]
+    
+            for i in range(1, int(arguments[-2]) + 1):
+                arguments_copy = f_arguments[:]
+                for j in range(1, int(arguments[-1]) + 1):
+                    if j < 10:
+                        arguments_copy.append("room_number={}-{}-0{}".format(name, i, j))
+                    else:
+                        arguments_copy.append("room_number={}-{}-{}".format(name, i, j))
+                    print(arguments_copy[-1])
+                    if not args:
+                        print("** class name missing **")
+                        return
+                    elif arguments[0] not in CAMPUSCommand.classes:
+                        print("** class doesn't exist **")
+                        return
+                    new_instance = globals()[arguments[0]]()
+                    for my_args in arguments_copy:
+                        key, value = my_args.split("=")
+                        if '_' in value:
+                            new_value = value.replace('_', ' ')
+                            setattr(new_instance, key, new_value)
+                        else:
+                            setattr(new_instance, key, value)
+
+                    if os.getenv("CAMPUS_TYPE_STORAGE") == "db":
+                        new_instance.save()
+                    else:
+                        storage.save()
+            all_room_id = storage.all_room_id(name)
+            all_zones = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+
+            for k in range(len(all_room_id)):
+                for l in range(int(people_count)):
+                    new_argument = "Student Room_ID={} Zone={}".format(all_room_id[k], all_zones[l])
+                    self.do_create(new_argument)
+            
+        else:
+            f_arguments = arguments[1:]
+        
+            if not args:
+                print("** class name missing **")
+                return
+            elif arguments[0] not in CAMPUSCommand.classes:
+                print("** class doesn't exist **")
+                return
+            new_instance = globals()[arguments[0]]()
+            for my_args in f_arguments:
+                key, value = my_args.split("=")
+                if '_' in value:
+                    new_value = value.replace('_', ' ')
+                    setattr(new_instance, key, new_value)
+                else:
+                    setattr(new_instance, key, value)
+            if os.getenv("CAMPUS_TYPE_STORAGE") == "db":
+                new_instance.save()
+            else:
+                storage.save()
+            if arguments[0] != "Student":
+                print(new_instance.id)
+        
+
+
+if __name__ == '__main__':
+    CAMPUSCommand().cmdloop()
