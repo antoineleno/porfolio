@@ -30,12 +30,12 @@
 # Console 
 * create : To create all objects 
 * delete : to manage everything : delete buidling, students, room, zone
-* update : to change student infos, update amenity
+* update : to change student infos,move studnet, update amenity
 * insert student: Randomly base on his country, insert manuelly
 * Get: to retrieve all infos from db exampe: student, room, buidings, amenety of the room, hostel residents, report (normal report)
 * all : To retrieve all objects
 * report: to report an issue
 * count: to list the number of students(following some criteria)
 
-## Part1 : delete, insert, update (Antoine)
-## Part2 : get, report, count  (Amadou)
+## Part1 : delete, insert (Antoine)
+## Part2 : get, report, count, update  (Amadou)
