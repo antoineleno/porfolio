@@ -10,7 +10,8 @@ from models.base_model import Base
 from models.building import Building
 from models.user import User
 from models.student import Student
-#from models.facility import Facility
+from models.facility import Facility
+from models.hostel import Hostel
 
 
 class DBStorage:
@@ -23,10 +24,10 @@ class DBStorage:
     def __init__(self):
         """Contructor method
         """
-        db_user = getenv("CAMPUS_MYSQL_USER")
-        db_password = getenv("CAMPUS_MYSQL_PWD")
-        db_name = getenv("CAMPUS_MYSQL_DB")
-        host = getenv("CAMPUS_MYSQL_HOST")
+        db_user = getenv("MYUSER")
+        db_password = getenv("MYPWD")
+        db_name = getenv("MYDB")
+        host = getenv("MYHOST")
         env = getenv("CAMPUS_ENV")
 
         self.__engine = create_engine(
@@ -49,6 +50,8 @@ class DBStorage:
         allclasses = {"User": User,
                       "Building": Building,
                       "Student": Student,
+                      "Facility": Facility,
+                      "Hostel": Hostel
                       }
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)
