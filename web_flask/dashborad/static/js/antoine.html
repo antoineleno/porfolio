@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Menu Example</title>
+    <style>
+        /* Basic reset */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Styles for the toggle button */
+        .menu-toggle {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px;
+        }
+
+        /* Styles for the container menu */
+        .container-menu {
+            display: none; /* Hidden by default */
+            background-color: #fff; /* White background */
+            border: 1px solid #ddd; /* Light border */
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+            position: absolute; /* Absolute positioning */
+            top: 60px; /* Adjust as needed */
+            left: 20px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+
+        /* Styles for each item in the container menu */
+        .container-menu .menu-item {
+            display: block; /* Block display for each item */
+            padding: 10px 20px; /* Padding around items */
+            text-decoration: none; /* No underline */
+            color: #333; /* Dark text color */
+            border-bottom: 1px solid #ddd; /* Separator line */
+            transition: background-color 0.3s ease; /* Smooth background transition */
+        }
+
+        /* Change background color on hover */
+        .container-menu .menu-item:hover {
+            background-color: #f8f9fa; /* Light grey background on hover */
+            color: #007bff; /* Change text color on hover */
+        }
+
+        /* Style for the icon */
+        .container-menu i {
+            font-size: 20px; /* Icon size */
+            color: #333; /* Icon color */
+            display: block; /* Display icon as block */
+            padding: 10px; /* Padding around icon */
+            text-align: center; /* Center icon */
+        }
+
+        /* Show the container menu when it has the active class */
+        .container-menu.active {
+            display: block; /* Show when active */
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle">Toggle Menu</button>
+    <div class="container-menu">
+        <a href="button.html" class="menu-item">Initialize</a>
+        <a href="typography.html" class="menu-item">Randomize</a>
+        <a href="element.html" class="menu-item">ManualInsert</a>
+        <a href="element.html" class="menu-item">BatchInsert</a>
+        <i class="fa-solid fa-building"></i>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to the toggle button and container menu
+            const menuToggle = document.querySelector('.menu-toggle');
+            const containerMenu = document.querySelector('.container-menu');
+
+            // Check if both elements are present
+            if (menuToggle && containerMenu) {
+                // Add click event listener to toggle button
+                menuToggle.addEventListener('click', () => {
+                    // Toggle 'active' class on the container menu
+                    containerMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
