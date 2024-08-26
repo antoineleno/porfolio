@@ -9,10 +9,11 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class BaseModel:
     """BaseModel class: to serve for parent class for all the classes"""
     id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DateTime, nullable=False,default=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
@@ -28,7 +29,7 @@ class BaseModel:
                         value = datetime.strptime(value, time_format)
                         setattr(self, key, value)
                     setattr(self, key, value)
-        
+
         self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
@@ -55,4 +56,8 @@ class BaseModel:
                 and isinstance(dict['updated_at'], datetime):
             dict['updated_at'] = dict['updated_at'].isoformat()
             dict['__class__'] = type(self).__name__
-            return dict
+
+        key_to_remove = '_sa_instance_state'
+        if key_to_remove in dict.keys():
+            del dict[key_to_remove]
+        return dict
