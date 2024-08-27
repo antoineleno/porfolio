@@ -11,6 +11,7 @@ from models.building import Building
 from models.user import User
 from models.student import Student
 from models.leave_request import Leave
+from models.facility import Facility
 
 class DBStorage:
     """DBStorage
@@ -48,7 +49,8 @@ class DBStorage:
         allclasses = {"User": User,
                       "Building": Building,
                       "Student": Student,
-                      "Leave": Leave
+                      "Leave": Leave,
+                      "Facility": Facility
                       }
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)

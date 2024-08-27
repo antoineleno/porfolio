@@ -11,6 +11,7 @@ from models.building import Building
 from models.leave_request import Leave
 from models.student import Student
 from models.user import User
+from models.facility import Facility
 from models import storage
 
 
@@ -25,7 +26,8 @@ class CAMPUSCommand(cmd.Cmd):
     prompt = '(campus) ' if sys.__stdin__.isatty() else ''
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Hostel': Hostel,
-               'Building': Building, 'Student': Student, 'Leave': Leave
+               'Building': Building, 'Student': Student, 'Leave': Leave,
+               'Facility': Facility
               }
 
     def do_quit(self, line):
@@ -115,6 +117,15 @@ class CAMPUSCommand(cmd.Cmd):
                     new_argument = "Student Room_ID={} Zone={}".format(
                         all_room_id[k], all_zones[m])
                     self.do_create(new_argument)
+            
+            Amenity = ["bed", "table", "lamp"]
+            for item in Amenity:
+                amenity = Facility(name=item)
+                storage.new(amenity)
+                storage.save()
+                new_instance.facilities.append(amenity)
+            storage.save()
+        
         else:
             f_arguments = arguments[1:]
 
