@@ -38,4 +38,4 @@
 * count: to list the number of students(following some criteria)
 
 ## Part1 : delete, insert (Antoine)
-## Part2 : get, report, count, update  (Amadou)
+## Part2 : report,  update  (Amadou)
