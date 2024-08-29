@@ -3,14 +3,20 @@
 DB storage module
 """
 
+import os
+import sys
+import shlex
 from os import getenv
-from sqlalchemy import create_engine, distinct, update
+from sqlalchemy import create_engine, distinct, update, func
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.building import Building
 from models.user import User
 from models.student import Student
+from models.maintenance_request import Maintenance
 from models.leave_request import Leave
+from datetime import datetime, timedelta
+
 
 class DBStorage:
     """DBStorage
@@ -48,7 +54,8 @@ class DBStorage:
         allclasses = {"User": User,
                       "Building": Building,
                       "Student": Student,
-                      "Leave": Leave
+                      "Leave": Leave,
+                      "Maintenance": Maintenance
                       }
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)
@@ -106,8 +113,14 @@ class DBStorage:
         """
         self.__session.close()
 
-    def all_room_id(self, block_name):
+    def all_room_id(self, b_name):
         """Return the id of all the rooms in buildings"""
+        block_name = ""
+        if "_" in b_name:
+            block_name = b_name.replace("_", " ")
+        else:
+            block_name = b_name
+            
         result = (
             self.__session.query(Building.room_id)
             .filter(Building.block_name == block_name)
@@ -123,10 +136,9 @@ class DBStorage:
             self.__session.query(distinct(Building.block_name))
             .filter(Building.hostel_id == hostel_type)
             .all())
+        return [name[0] for name in result]
 
-        return [hostel_name[0] for hostel_name in result]
-
-    def insert_student(self, name, ID, Country, room_id=None,
+    def insert_student(self, f_name, f_ID, f_Country, room_id=None,
                        room_number=None):
         """Base a student base on his country
             * if all 5 arguments are given student should be insert manuelly in
@@ -137,6 +149,23 @@ class DBStorage:
 
         if room_id and not room_number:
             """insert a student randomly"""
+            name = ""
+            Country = ""
+            ID = ""
+            if "_" in f_name:
+                name = f_name.replace("_", " ")
+            else:
+                name = f_name
+            if "_" in f_ID:
+                ID = f_ID.replace("_", " ")
+            else:
+                ID = f_ID
+            if "_" in f_Country:
+                Country = f_Country.replace("_", " ")
+            else:
+                Country = f_Country
+            
+
             result = (self.__session.query(Student.Country, Student.Zone)
                       .filter(Student.Room_ID == room_id).all())
             zones = [result[i][1] for i in range(len(result))]
@@ -313,26 +342,185 @@ class DBStorage:
                     print("There is a Student living at this zone.")
             else:
                 print("Zone does not exist.")
+
     def report(self, hostel_type):
         block_names = self.all_block_name(hostel_type)
         my_response = {}
-        for name in block_names:    
+        for name in block_names:
             query = self.__session.query(
-            Building.room_number,
-            Student.Student_name,
-            Student.Student_ID,
-            Student.Country,
-            Student.Zone
-            ).join(
-            Student,
-            Building.room_id == Student.Room_ID
-            ).filter(
-            Student.Student_ID.isnot(None),
-            Building.block_name == name
-            )
-            
+                Building.room_number,
+                Student.Student_name,
+                Student.Student_ID,
+                Student.Country,
+                Student.Zone
+                ).join(
+                    Student,
+                    Building.room_id == Student.Room_ID
+                    ).filter(
+                        Student.Student_ID.isnot(None),
+                        Building.block_name == name
+                        )
             if len(query.all()) != 0:
                 my_response[name] = query.all()
-
-        
         return my_response
+
+    def count_block(self, hostel_type):
+        """Count number of blocks"""
+        count = (self.__session
+                 .query(func.count(func.distinct(Building.block_name)))
+                 .filter(Building.hostel_id == hostel_type).scalar())
+        return count
+
+    def count_students(self, hostel_type, block_type=None):
+        """Count number of students in a hostel or block."""
+        if block_type:
+            blocks_names = self.all_block_name(hostel_type)
+            if len(blocks_names) != 0:
+                student_count = []
+                for block_name in blocks_names:
+                    count = (self.__session
+                             .query(func.count(Student.Student_ID))
+                             .join(Building,
+                                   Student.Room_ID == Building.room_id)
+                             .filter(
+                                 Building.room_number.like(f"{block_name}%"),
+                                 Student.Student_ID.isnot(None)
+                             ).scalar())
+                    student_count.append(count)
+                return student_count
+        else:
+            subquery = (self.__session
+                        .query(Building.room_id)
+                        .filter(Building.hostel_id == hostel_type).subquery())
+            count = self.__session.query(func.count()).filter(
+                Student.Room_ID.in_(subquery),
+                Student.Student_ID.isnot(None)
+                ).scalar()
+            return count
+
+    def count_zones(self, hostel_type):
+        """Count number of zones in a block."""
+        blocks_names = self.all_block_name(hostel_type)
+        if len(blocks_names) != 0:
+            zone_count = []
+            for block_name in blocks_names:
+                count_result = (self.__session
+                                .query(func.count(Student.Zone))
+                                .filter(Student.Room_ID.in_(
+                                    self.__session.query(Building.room_id)
+                                    .filter(Building.room_number.like(f"{block_name}-%"))
+                                    )
+                                    ).scalar())
+                zone_count.append(count_result)
+            return zone_count
+
+    def get_application(self, app_type):
+        """Get applicant name and time"""
+        if app_type == "application":
+            results = (self.__session.query(Student.Student_name, Leave.created_at)
+                       .join(Leave, Student.Student_ID == Leave.student_id)
+                       .filter(Leave.status == None)
+                       .limit(5).all())
+            return results
+        else:
+            query = (self.__session
+                     .query(Student.Student_name,
+                            Maintenance.created_at)
+                            .join(Maintenance, Student.Student_ID == Maintenance.student_id)
+                            .filter(Maintenance.status == None)
+                            .limit(5))
+            return query.all()
+
+
+    def get_all_zones_residents(self, block_name):
+        """Get all zones from a building"""
+        query = (
+            self.__session.query(Building.room_number,
+                                 Student.Student_name,
+                                 Student.Student_ID,
+                                 Student.Country, Student.Zone)
+                                 .join(Student, Building.room_id == Student.Room_ID)
+                                 .filter(Building.room_number.like(f"{block_name}-%")))
+        results = query.all()
+        return results
+    
+    def time_since(self, message_time_str):
+        """Parse the string into a datetime object"""
+        message_time = datetime.strptime(message_time_str, '%Y-%m-%d %H:%M:%S')
+        now = datetime.now()
+        time_diff = now - message_time
+        seconds = time_diff.total_seconds()
+        minutes = seconds // 60
+        hours = minutes // 60
+        days = hours // 24
+
+        if seconds < 60:
+            return f"{int(seconds)} seconds ago"
+        elif minutes < 60:
+            return f"{int(minutes)} minutes ago"
+        elif hours < 24:
+            return f"{int(hours)} hours ago"
+        else:
+            return f"{int(days)} days ago"
+
+    def create_a_new_object(self, args):
+        arguments = shlex.split(args)
+        people_count = arguments[-1]
+
+        if arguments[0] == "Building":
+            del arguments[-1]
+            f_arguments = arguments[1:-2]
+
+            name = arguments[2].split('=')[1]
+
+            for i in range(1, int(arguments[-2]) + 1):
+                arg_copy = f_arguments[:]
+                for j in range(1, int(arguments[-1]) + 1):
+                    if j < 10:
+                        arg_copy.append("room_number={}-{}-0{}".format(
+                            name, i, j))
+                    else:
+                        arg_copy.append("room_number={}-{}-{}".format(
+                            name, i, j))
+
+                    new_instance = globals()[arguments[0]]()
+                    for my_args in arg_copy:
+                        key, value = my_args.split("=")
+                        if '_' in value:
+                            new_value = value.replace('_', ' ')
+                            setattr(new_instance, key, new_value)
+                        else:
+                            setattr(new_instance, key, value)
+
+                    if os.getenv("CAMPUS_TYPE_STORAGE") == "db":
+                        new_instance.save()
+                    else:
+                        self.save()
+            
+            all_room_id = self.all_room_id(name)
+            all_zones = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+            for k in range(len(all_room_id)):
+                for m in range(int(people_count)):
+                    new_argument = "Student Room_ID={} Zone={}".format(
+                        all_room_id[k], all_zones[m])
+                    self.create_a_new_object(new_argument)
+        else:
+            f_arguments = arguments[1:]
+            new_instance = globals()[arguments[0]]()
+            for my_args in f_arguments:
+                key, value = my_args.split("=")
+                if '_' in value:
+                    new_value = value.replace('_', ' ')
+                    setattr(new_instance, key, new_value)
+                else:
+                    setattr(new_instance, key, value)
+            if os.getenv("CAMPUS_TYPE_STORAGE") == "db":
+                new_instance.save()
+            else:
+                self.save()
+    
+    def get_admin_name(self):
+        """Get the name of the Admin"""
+        return (self.__session
+                .query(User.full_name)
+                .filter(User.role == "admin").scalar())

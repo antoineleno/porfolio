@@ -12,6 +12,7 @@ from models.leave_request import Leave
 from models.student import Student
 from models.user import User
 from models import storage
+from models.maintenance_request import Maintenance
 
 
 import os
@@ -25,7 +26,8 @@ class CAMPUSCommand(cmd.Cmd):
     prompt = '(campus) ' if sys.__stdin__.isatty() else ''
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Hostel': Hostel,
-               'Building': Building, 'Student': Student, 'Leave': Leave
+               'Building': Building, 'Student': Student, 'Leave': Leave,
+               'Maintenance': Maintenance
               }
 
     def do_quit(self, line):
@@ -48,8 +50,8 @@ class CAMPUSCommand(cmd.Cmd):
                         hostel_id 1 for male and 2 for female
             example: create Building hostel_id=1 block_name="25E" 4 14 4
                 To create building and student at the same time.
-        * User: create User fist_name last_name email password
-            example: create User first_name=Antoine last_name=LENO
+        * User: create User full_name user_name password role
+            example: create User full_name=Antoine user_name=lenoantoine role=admin
                     email=lenoantoine@gmail.com password=antoinepw
         * Hostel: create Hostel hostel_type(Male/Female)
             example:  create Hostel hostel_type="Male"
@@ -58,8 +60,9 @@ class CAMPUSCommand(cmd.Cmd):
         * Apply for a leave
             example: create Leave student_id="AIU22102031"
             start_date="2024-08-16 09:00:00"
-            end_date="2024-08-16 09:00:00" description="goin"
-            place="KL"
+            end_date="2024-08-16 09:00:00"
+            description="Visit" place="KK"
+
         """
 
         arguments = shlex.split(args)

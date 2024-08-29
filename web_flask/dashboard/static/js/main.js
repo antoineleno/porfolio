@@ -41,7 +41,7 @@
     }, {offset: '80%'});
 
 
-    // Calender
+    // Calendar
     $('#calender').datetimepicker({
         inline: true,
         format: 'L'
@@ -59,152 +59,72 @@
     });
 
 
+    // Fetch data and initialize charts
+    $.getJSON('/campusstay/api/chart-data')
+        .done(function(data) {
+            // Update Bar Chart for Male
+            var ctx4 = $("#bar-chart").get(0).getContext("2d");
+            new Chart(ctx4, {
+                type: "bar",
+                data: {
+                    labels: data.male.labels,  // Use labels from male data
+                    datasets: [{
+                        backgroundColor: [
+                            "rgba(255, 159, 64, 0.7)",
+                            "rgba(255, 206, 86, 0.7)",
+                            "rgba(255, 99, 132, 0.7)",
+                            "rgba(54, 162, 235, 0.7)",
+                            "rgba(75, 192, 192, 0.7)",
+                            "rgba(153, 102, 255, 0.7)",
+                            "rgba(255, 159, 64, 0.7)",
+                            "rgba(199, 199, 199, 0.7)",
+                            "rgba(255, 206, 86, 0.7)",
+                            "rgba(75, 192, 192, 0.7)",
+                            "rgba(83, 102, 255, 0.7)",
+                            "rgba(255, 99, 71, 0.7)",
+                            "rgba(102, 255, 178, 0.7)"
+                        ],
+                        data: data.male.values,  // Use values from male data
+                        label: 'Male Students'
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
 
-    // Single Bar Chart for Male
-    var ctx4 = $("#bar-chart").get(0).getContext("2d");
-    var myChart4 = new Chart(ctx4, {
-        type: "bar",
-        data: {
-            labels: ["24A", "24B", "24C", "24D", "24E", "24F", "24G", "24H", "24I", "24J"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.7)",
-                    "rgba(54, 162, 235, 0.7)",
-                    "rgba(255, 206, 86, 0.7)",
-                    "rgba(75, 192, 192, 0.7)",
-                    "rgba(153, 102, 255, 0.7)",
-                    "rgba(255, 159, 64, 0.7)",
-                    "rgba(199, 199, 199, 0.7)",
-                    "rgba(83, 102, 255, 0.7)",
-                    "rgba(255, 99, 71, 0.7)",
-                    "rgba(102, 255, 178, 0.7)"
-                ],
-                data: [55, 49, 78, 24, 15, 25, 89, 18, 48, 65],
-                label: 'Students'
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
+            // Update Bar Chart for Female
+            var ctx5 = $("#bar-charts").get(0).getContext("2d");
+            new Chart(ctx5, {
+                type: "bar",
+                data: {
+                    labels: data.female.labels,  // Use labels from female data
+                    datasets: [{
+                        backgroundColor: [
+                            "rgba(0, 156, 255, .7)",
+                            "rgba(255, 99, 132, 0.7)",
+                            "rgba(54, 162, 235, 0.7)",
+                            "rgba(255, 206, 86, 0.7)",
+                            "rgba(75, 192, 192, 0.7)",
+                            "rgba(153, 102, 255, 0.7)",
+                            "rgba(255, 159, 64, 0.7)",
+                            "rgba(199, 199, 199, 0.7)",
+                            "rgba(83, 102, 255, 0.7)",
+                            "rgba(255, 99, 71, 0.7)",
+                            "rgba(102, 255, 178, 0.7)"
+                        ],
+                        data: data.female.values,  // Use values from female data
+                        label: 'Female Students'
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
 
-    // Single Bar Chart for Female
-    var ctx4 = $("#bar-charts").get(0).getContext("2d");
-    var myChart4 = new Chart(ctx4, {
-        type: "bar",
-        data: {
-            labels: ["24A", "24B", "24C", "24D", "24E", "24F", "24G", "24H", "24I", "24J", "24K", "24M"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(255, 99, 132, 0.7)",
-                    "rgba(54, 162, 235, 0.7)",
-                    "rgba(255, 206, 86, 0.7)",
-                    "rgba(75, 192, 192, 0.7)",
-                    "rgba(153, 102, 255, 0.7)",
-                    "rgba(255, 159, 64, 0.7)",
-                    "rgba(199, 199, 199, 0.7)",
-                    "rgba(83, 102, 255, 0.7)",
-                    "rgba(255, 99, 71, 0.7)",
-                    "rgba(102, 255, 178, 0.7)"
-                ],
-                data: [55, 49, 44, 24, 15, 25, 89, 89, 48, 2, 45, 21],
-                label: 'Students'
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
+        }).fail(function() {
+            console.error('Failed to fetch data.');
+        });
 
-
-    // Single Line Chart
-    var ctx3 = $("#line-chart").get(0).getContext("2d");
-    var myChart3 = new Chart(ctx3, {
-        type: "line",
-        data: {
-            labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
-            datasets: [{
-                label: "Salse",
-                fill: false,
-                backgroundColor: "rgba(0, 156, 255, .3)",
-                data: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Single Bar Chart
-    var ctx4 = $("#bar-chart").get(0).getContext("2d");
-    var myChart4 = new Chart(ctx4, {
-        type: "bar",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Pie Chart
-    var ctx5 = $("#pie-chart").get(0).getContext("2d");
-    var myChart5 = new Chart(ctx5, {
-        type: "pie",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Doughnut Chart
-    var ctx6 = $("#doughnut-chart").get(0).getContext("2d");
-    var myChart6 = new Chart(ctx6, {
-        type: "doughnut",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-    
 })(jQuery);
 

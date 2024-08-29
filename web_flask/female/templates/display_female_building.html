@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>CampusStay</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -180,63 +180,37 @@
                                     <i class="fa fa-arrow-left fa-2x text-primary"></i>
                                 </a>
                             </div>
-                        <div class="bg-light text-center rounded p-4">
-                            <h3 class="text-primary" style="text-align: center;">Male Hostel</h3>
-                            <h7>Block Name : 25E</h7>
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Block Residents</h6>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                    <thead>
-                                        <tr class="text-dark">
-                                            <th scope="col">Room Number</th>
-                                            <th scope="col">Student Name</th>
-                                            <th scope="col">Student ID</th>
-                                            <th scope="col">Country</th>
-                                            <th scope="col">Zone</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>24E-04-1</td>
-                                            <td>Antoine LENO</td>
-                                            <td>AIU22102031</td>
-                                            <td>Guinea</td>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr>
-                                            <td>24E-04-1</td>
-                                            <td>Amadou BAH</td>
-                                            <td>AIU22102031</td>
-                                            <td>Senegal</td>
-                                            <td>B</td>
-                                        </tr>
-                                        <tr>
-                                            <td>24E-04-1</td>
-                                            <td>Nouhan DOUMBOUYA</td>
-                                            <td>AIU22102031</td>
-                                            <td>Malaysia</td>
-                                            <td>C</td>
-                                        </tr>
-                                        <tr>
-                                            <td>24E-04-1</td>
-                                            <td>Amadou Oury DIALLO</td>
-                                            <td>AIU22102031</td>
-                                            <td>USA</td>
-                                            <td>D</td>
-                                        </tr>
-                                        <tr>
-                                            <td>24E-04-2</td>
-                                            <td>Ibrahima Kindy DIALLO</td>
-                                            <td>AIU22102031</td>
-                                            <td>Guinea</td>
-                                            <td>A</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            <div class="bg-light text-center rounded p-4">
+                                <h3 class="text-primary" style="text-align: center;">Female Hostel</h3>
+                                <h7>Block Name : {{ block_name }}</h7>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Block Residents</h6>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr class="text-dark">
+                                                <th scope="col">Room Number</th>
+                                                <th scope="col">Student Name</th>
+                                                <th scope="col">Student ID</th>
+                                                <th scope="col">Country</th>
+                                                <th scope="col">Zone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for resident in residents %}
+                                            <tr>
+                                                <td>{{ resident.room_number }}</td>
+                                                <td>{{ resident.student_name }}</td>
+                                                <td>{{ resident.student_id }}</td>
+                                                <td>{{ resident.country }}</td>
+                                                <td>{{ resident.zone }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                            
                     </div>
                 </div>
             </div>

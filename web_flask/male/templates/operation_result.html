@@ -184,29 +184,19 @@
                             </div>
                             <div class="col-right">
                                 <div class="login-form">
-                                    <h2>Block Information</h2>
-                                    <form method="POST" action="{{ url_for('app_views_male.open_new_male_block') }}">
-                                        <p>
-                                            <label for="block-name">Block Name<span>*</span></label>
-                                            <input id="block-name" name="block_name" type="text" placeholder="Block name" required aria-label="Block Name">
-                                        </p>
-                                        <p>
-                                            <label for="levels">Levels<span>*</span></label>
-                                            <input id="levels" name="levels" type="number" placeholder="Number of levels" required aria-label="Levels">
-                                        </p>
-                                        <p>
-                                            <label for="rooms">Max rooms per Level<span>*</span></label>
-                                            <input id="rooms" name="rooms" type="number" placeholder="name of rooms per level" required aria-label="Rooms per Level">
-                                        </p>
-                                        <p>
-                                            <label for="students">Students per Room<span>*</span></label>
-                                            <input id="students" name="students" type="number" placeholder="Number of students per room" required aria-label="Students per Room">
-                                        </p>
-                        
-                                        <p>
-                                            <input type="submit" value="Open"/>
-                                        </p>
-                                    </form>
+                                    <h2>Operation Result</h2>
+                                    <!-- Flash messages section -->
+                                    {% with messages = get_flashed_messages(with_categories=True) %}
+                                        {% if messages %}
+                                            <ul class="flash-messages">
+                                                {% for category, message in messages %}
+                                                    <li class="{{ category }}">{{ message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    {% endwith %}
+                                    <br><br>
+                                    <br><br>
                                 </div>
                             </div>
                         </div>

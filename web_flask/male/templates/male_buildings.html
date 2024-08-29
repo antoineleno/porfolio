@@ -88,8 +88,8 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
+                <form class="d-none d-md-flex ms-4" onsubmit="handleSearch(event)">
+                    <input id="searchInput" class="form-control border-0" type="search" placeholder="Search">
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
@@ -177,7 +177,9 @@
                         <h3 class="text-primary" style="text-align: center;">Male Hostel</h3>
                     </a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-cogs me-2"></i>Actions</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <h6 style="font-size: 1.25rem;" class="d-inline"><i class="fa fa-cogs me-2"></i>Actions</h6>
+                        </a>
                         <div class="container-menu dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a href="{{ url_for('app_views_male.open_new_male_block') }}" class="menu-item">Open new Block</a>
                             <a href="{{ url_for('app_views_male.insert_male') }}" class="menu-item">Insert Student Randomly</a>
@@ -194,138 +196,25 @@
                     </div>
 
                     <div class="card-container">
-                        <!-- Card 1 -->
-                        <a href="{{ url_for('app_views_male.display_male_blocks') }}" class="card-link">
-                            <div class="card blue">
-                                <div class="card-header">
-                                    <h3>18B</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
+                        {% for block in blocks %}
+                            <a href="{{ url_for('app_views_male.display_male_blocks', block_name=block.name) }}" class="card-link">
+                                <div class="card {{ block.color }}">
+                                    <div class="card-header">
+                                        <h3>{{ block.name }}</h3>
+                                        <p>Male Block</p>
+                                        <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
+                                    </div>
+                                    <div class="card-content">
+                                        <p>CampusStay</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <i class="fa fa-male fa-2x text-primary"></i>
+                                        <p>{{ block.occupancy }}</p>
+                                    </div>
                                 </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>19/228</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="{{ url_for('app_views_male.display_male_blocks') }}" class="card-link">
-                            <div class="card red">
-                                <div class="card-header">
-                                    <h3>25D</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>127/226</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="display_building.html" class="card-link">
-                            <div class="card hey">
-                                <div class="card-header">
-                                    <h3>25C</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>12/220</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="display_building.html" class="card-link">
-                            <div class="card new">
-                                <div class="card-header">
-                                    <h3>25E</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>125/220</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="display_building.html" class="card-link">
-                            <div class="card read">
-                                <div class="card-header">
-                                    <h3>25E</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>125/220</p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="display_building.html" class="card-link">
-                            <div class="card orange">
-                                <div class="card-header">
-                                    <h3>25A</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>15/224</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="display_building.html" class="card-link">
-                            <div class="card yellow">
-                                <div class="card-header">
-                                    <h3>25H</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>224/224</p>
-                                </div>
-                            </div>
-                        </a>
-                        <!-- Card 2 -->
-                        <a href="display_building.html" class="card-link">
-                            <div class="card green">
-                                <div class="card-header">
-                                    <h3>18H</h3>
-                                    <p>Male Block</p>
-                                    <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
-                                </div>
-                                <div class="card-content">
-                                    <p>CampusStay</p>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa fa-male fa-2x text-primary"></i>
-                                    <p>200/224</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        {% endfor %}
+                    </div>                   
                 </div>
             </div>
             <!-- blocks End -->

@@ -59,7 +59,7 @@
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Antoine LENO</h6>
+                        <h6 class="mb-0">{{ admin_name or 'Admin' }}</h6>
                         <span>Admin</span>
                     </div>
                 </div>
@@ -93,8 +93,8 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
+                <form class="d-none d-md-flex ms-4" onsubmit="handleSearch(event)">
+                    <input id="searchInput" class="form-control border-0" type="search" placeholder="Search">
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
@@ -103,67 +103,59 @@
                             <span class="d-none d-lg-inline-flex">Application</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Antoine send you a message</h6>
-                                        <small>15 minutes ago</small>
+                            {% for notification in notifications %}
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">{{ notification.name }}</h6>
+                                            <small>{{ notification.time }}</small>
+                                        </div><div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                            {% for notification in notifications %}
+                                                <a href="#" class="dropdown-item">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="fw-normal mb-0">{{ notification.name }}</h6>
+                                                            <small>{{ notification.time }}</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <hr class="dropdown-divider">
+                                            {% endfor %}
+                                            <a href="" class="dropdown-item text-center">See all applications</a>
+                                        </div>
+                                        
                                     </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Antoine send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Antoine send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
+                                </a>
+                                <hr class="dropdown-divider">
+                            {% endfor %}
+                            <a href="{{ url_for('app_views_leaves.leaves') }}" class="dropdown-item text-center">See all applications</a>
                         </div>
+                        
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
+                            {% for inquirie in inquiries %}
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">{{ inquirie.name }}</h6>
+                                            <small>{{ inquirie.time }}</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                            {% endfor %}
+                            <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="dropdown-item text-center">See all inquiries</a>
+                        </div>                        
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">Antoine LENO</span>
+                            <span class="d-none d-lg-inline-flex">{{admin_name}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
@@ -184,7 +176,7 @@
                             <i class="fa fa-building fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Male Blocks</p>
-                                <h6 class="mb-0">10</h6>
+                                <h6 class="mb-0">{{ male_blocks }}</h6>
                             </div>
                         </div>
                     </div>
@@ -193,7 +185,7 @@
                             <i class="fa fa-male fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Male Students</p>
-                                <h6 class="mb-0">1234</h6>
+                                <h6 class="mb-0">{{ male_students }}</h6>
                             </div>
                         </div>
                     </div>
@@ -202,7 +194,7 @@
                             <i class="fa fa-building fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Female Blocks</p>
-                                <h6 class="mb-0">12</h6>
+                                <h6 class="mb-0">{{ female_blocks }}</h6>
                             </div>
                         </div>
                     </div>
@@ -211,7 +203,7 @@
                             <i class="fa fa-female fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Female Students</p>
-                                <h6 class="mb-0">14234</h6>
+                                <h6 class="mb-0">{{ female_students }}</h6>
                             </div>
                         </div>
                     </div>
@@ -251,50 +243,23 @@
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <h6 class="mb-0">Application</h6>
-                                <a href="">Show All</a>
+                                <a href="{{ url_for('app_views_leaves.leaves') }}">Show All</a>
                             </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Antoine LENO</h6>
-                                        <small>15 minutes ago</small>
+                            {% for app in applications %}
+                                <div class="d-flex align-items-center border-bottom py-3">
+                                    <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-0">{{ app.name }}</h6>
+                                            <small>{{ app.time }}</small>
+                                        </div>
+                                        <span>{{ app.application_text }}</span>
                                     </div>
-                                    <span>Application goes here...</span>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Amadou BAH</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Application goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Nouhan DOUMBOUYA</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Application goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Kindy DIALLO</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Application goes here...</span>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
+                    
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -307,51 +272,23 @@
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Inquiries</h6>
-                                <a href="">Show All</a>
+                                <a href="{{ url_for('app_views_inquiries.inquiries') }}">Show All</a>
                             </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Antoine LENO</h6>
-                                        <small>15 minutes ago</small>
+                            {% for inquiry in inquiries_goes %}
+                                <div class="d-flex align-items-center border-bottom py-3">
+                                    <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-0">{{ inquiry.name }}</h6>
+                                            <small>{{ inquiry.time }}</small>
+                                        </div>
+                                        <span>{{ inquiry.inquiry_text }}</span>
                                     </div>
-                                    <span>Inquiry goes here...</span>
                                 </div>
-                            </div>
-
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Antoine LENO</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Inquiry goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Antoine LENO</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Inquiry goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Antoine LENO</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Inquiry goes here...</span>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- Widgets End -->
@@ -390,10 +327,11 @@
     <script src="{{ url_for('.static', filename='lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ url_for('.static', filename='lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ url_for('.static', filename='lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-
+    
     <!-- Template Javascript -->
      
     <script src="{{ url_for('.static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/search.js') }}"></script>
 
 </body>
 
