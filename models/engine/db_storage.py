@@ -15,12 +15,9 @@ from models.user import User
 from models.student import Student
 from models.maintenance_request import Maintenance
 from models.leave_request import Leave
-<<<<<<< HEAD
 from datetime import datetime, timedelta
-
-=======
 from models.facility import Facility
->>>>>>> f7a7211ebb636cae434febacaa9df943dcc7ffba
+
 
 class DBStorage:
     """DBStorage
@@ -59,11 +56,8 @@ class DBStorage:
                       "Building": Building,
                       "Student": Student,
                       "Leave": Leave,
-<<<<<<< HEAD
-                      "Maintenance": Maintenance
-=======
+                      "Maintenance": Maintenance,
                       "Facility": Facility
->>>>>>> f7a7211ebb636cae434febacaa9df943dcc7ffba
                       }
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)
