@@ -37,6 +37,7 @@
 * report: to report an issue
 * count: to list the number of students(following some criteria)
 
+<<<<<<< HEAD
 ## Part1 : delete, insert, update (Antoine)
 ## Part2 : get, report, count  (Amadou)
 
@@ -53,3 +54,7 @@
 * http://127.0.0.1:5000/campusstay/admin/dashboard
 # To run unitest
 * HBNB_ENV=test CAMPUS_MYSQL_USER=campus_dev CAMPUS_MYSQL_PWD=campus_dev_pwd CAMPUS_MYSQL_HOST=localhost CAMPUS_MYSQL_DB=campus_dev_db CAMPUS_TYPE_STORAGE=db python3 -m unittest discover tests
+=======
+## Part1 : delete, insert (Antoine)
+## Part2 : report,  update  (Amadou)
+>>>>>>> f7a7211ebb636cae434febacaa9df943dcc7ffba
