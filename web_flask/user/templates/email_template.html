@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <h1 style="color: #0056b3; margin-top: 0; font-size: 24px;">Leave Request Approval Needed</h1>
+        <p>Dear Dean [Dean's Last Name],</p>
+        <p>I hope this message finds you well. I am writing to request approval for leave from [Start Date] to [End Date] due to [Reason for Leave] reason.</p>
+        <p>Please find the details of my request below:</p>
+        <ul style="list-style-type: none; padding: 0;">
+            <li><strong>Student Name : </strong> [Student Name]</li>
+            <li><strong>Student ID : </strong> [Student ID]</li>
+            <li><strong>Leave Reason : </strong> [Reason for Leave]</li>
+            <li><strong>Leave Period : </strong> From [Start Date] to [End Date]</li>
+            <li><strong>Reason description : </strong>[Description]</li>
+
+        </ul>
+        <p style="margin-top: 20px;">Kindly click on one of the options below to approve or cancel this request:</p>
+        <a href="http://127.0.0.1:5000/campusstay/approve_leave?request_id=[Request ID]" 
+        style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #28a745; text-decoration: none; border-radius: 4px; margin-right: 10px; text-align: center; font-weight: bold;">
+        Approve Leave
+        </a>
+     
+        <a href="http://127.0.0.1:5000/campusstay/cancel_leave?request_id=[Request ID]" 
+        style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #dc3545; text-decoration: none; border-radius: 4px; font-weight: bold;">
+        Cancel Leave
+        </a>
+     
+        <p>If you have any questions or need further information, please feel free to contact me.</p>
+        <p>Thank you for your consideration.</p>
+        <p>Best regards,<br>[Student Name]<br>[Student ID]<br>[Your Contact Information]</p>
+        <div style="margin-top: 20px; font-size: 14px; color: #666;">
+            This email was sent by Campusstay. If you have received this message in error, please contact [Your Contact Information].
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Campusstay</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Login Form Template" name="keywords">
+        <meta content="Login Form Template" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Stylesheet -->
+        <style>
+            /* Global Styles */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+
+            .wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background: linear-gradient(to right, #00aaff, #0044cc);
+            }
+
+            .container {
+                display: flex;
+                width: 80%;
+                max-width: 1200px;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                background-color: #ffffff;
+            }
+
+            .col-left, .col-right {
+                flex: 1;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .col-left {
+                background-color: #0044cc;
+                color: #ffffff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .col-right {
+                background-color: #ffffff;
+                color: #333;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .login-text {
+                text-align: center;
+            }
+
+            .login-text h2 {
+                margin: 0;
+                font-size: 2.5em;
+            }
+
+            .login-text p {
+                font-size: 1.2em;
+                margin: 10px 0 20px;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 1em;
+                color: #ffffff;
+                background-color: #00aaff;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn:hover {
+                background-color: #0088cc;
+            }
+
+            .login-form h2 {
+                margin: 0;
+                font-size: 1.8em;
+                color: #0044cc;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper login-3">
+            <div class="container">
+                <div class="col-left">
+                    <div class="login-text">
+                        <h2>Campusstay</h2>
+                        <p>
+                            Student leave request approval.
+                        </p>
+                        <a class="btn" href="">{{response_type}}</a>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div class="login-form">
+                        <h2>{{message}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -11,7 +11,7 @@ from models.building import Building
 from models.leave_request import Leave
 from models.student import Student
 from models.user import User
-from models.facility import Facility
+#from models.facility import Facility
 from models import storage
 from models.maintenance_request import Maintenance
 
@@ -28,11 +28,8 @@ class CAMPUSCommand(cmd.Cmd):
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Hostel': Hostel,
                'Building': Building, 'Student': Student, 'Leave': Leave,
-<<<<<<< HEAD
-               'Maintenance': Maintenance
-=======
-               'Facility': Facility
->>>>>>> f7a7211ebb636cae434febacaa9df943dcc7ffba
+               'Maintenance': Maintenance,
+               #'Facility': Facility
               }
 
     def do_quit(self, line):
@@ -57,7 +54,7 @@ class CAMPUSCommand(cmd.Cmd):
                 To create building and student at the same time.
         * User: create User full_name user_name password role
             example: create User full_name=Antoine user_name=lenoantoine role=admin
-                    email=lenoantoine@gmail.com password=antoinepw
+                    password=antoinepw
         * Hostel: create Hostel hostel_type(Male/Female)
             example:  create Hostel hostel_type="Male"
         * if you try to insert a student and he already exists in the
@@ -124,13 +121,13 @@ class CAMPUSCommand(cmd.Cmd):
                         all_room_id[k], all_zones[m])
                     self.do_create(new_argument)
             
-            Amenity = ["bed", "table", "lamp"]
-            for item in Amenity:
-                amenity = Facility(name=item)
-                storage.new(amenity)
-                storage.save()
-                new_instance.facilities.append(amenity)
-            storage.save()
+            #Amenity = ["bed", "table", "lamp"]
+            #for item in Amenity:
+            #    amenity = Facility(name=item)
+            #    storage.new(amenity)
+            #    storage.save()
+            #    new_instance.facilities.append(amenity)
+            #storage.save()
         
         else:
             f_arguments = arguments[1:]

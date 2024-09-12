@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CampusStay</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../static/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('.static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/bootstrap.min.css') }}">
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">{{ admin_name or 'Admin' }}</h6>
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Hostels</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{ url_for('app_views_male.buildings') }}" class="dropdown-item">Male</a>
+                            <a href="{{ url_for('app_views_female.buildings') }}" class="dropdown-item">Female</a>
+                            <a href="{{ url_for('app_views_search.search') }}" class="dropdown-item">Search</a>
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('app_views_leaves.leaves') }}" class="nav-item nav-link"><i class="fa fa-door-open me-2"></i>Hostel leaves</a>
+                    <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Inquiries</a>
+                    <a href="{{ url_for('app_views_report.report') }}" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>Hostel Report</a>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4" onsubmit="handleSearch(event)">
+                    <input id="searchInput" class="form-control border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Application</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% for notification in notifications %}
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">{{ notification.name }}</h6>
+                                            <small>{{ notification.time }}</small>
+                                        </div><div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                            {% for notification in notifications %}
+                                                <a href="#" class="dropdown-item">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="fw-normal mb-0">{{ notification.name }}</h6>
+                                                            <small>{{ notification.time }}</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <hr class="dropdown-divider">
+                                            {% endfor %}
+                                            <a href="" class="dropdown-item text-center">See all applications</a>
+                                        </div>
+                                        
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                            {% endfor %}
+                            <a href="{{ url_for('app_views_leaves.leaves') }}" class="dropdown-item text-center">See all applications</a>
+                        </div>
+                        
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% for inquirie in inquiries %}
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">{{ inquirie.name }}</h6>
+                                            <small>{{ inquirie.time }}</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                            {% endfor %}
+                            <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="dropdown-item text-center">See all inquiries</a>
+                        </div>                        
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="{{ url_for('.static', filename='img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">{{ admin_name or 'Admin' }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="{{ url_for('app_views_auth.log_out') }}" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- blocks Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row bg-light rounded align-items-center justify-content-center mx-0" style="min-height: 100vh; margin: 15px; padding: 15px;">
+                    <a href="{{ request.url }}" class="navbar-brand mx-4 mb-3">
+                        <h3 class="text-primary" style="text-align: center;">{{hostel_type}}</h3>
+                    </a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <h6 style="font-size: 1.25rem;" class="d-inline"><i class="fa fa-cogs me-2"></i>Actions</h6>
+                        </a>
+                        <div class="container-menu dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.open_new_block') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.open_new_block') }}
+                            {% endif %}"
+                            class="menu-item">Open new Block</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.insert_student_randomlly') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.insert_student_randomlly') }}
+                            {% endif %}"
+                            class="menu-item">Insert Student Randomly</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.insert_student_manuelly') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.insert_student_manuelly') }}
+                            {% endif %}"
+                            class="menu-item">Insert Student Manuelly</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.batch_insert') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.batch_insert') }}
+                            {% endif %}"
+                            class="menu-item">Batch Insertion</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.move_student') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.move_student') }}
+                            {% endif %}"
+                            class="menu-item">Move Student</a>
+                            <a href="{{ url_for('app_views_male.move_all_student') }}" class="menu-item">Move all Students</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.delete_student') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.delete_student') }}
+                            {% endif %}"
+                            class="menu-item">Delete Student</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.batch_deletion') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.batch_deletion') }}
+                            {% endif %}"
+                            class="menu-item">Batch Deletion</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.delete_block') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.delete_block') }}
+                            {% endif %}"
+                            class="menu-item">Delete Block</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.delete_room') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.delete_room') }}
+                            {% endif %}"
+                            class="menu-item">Delete Room</a>
+                            <a href="
+                            {% if hostel_type == 'Male Hostel' %}
+                                {{ url_for('app_views_male.delete_zone') }}
+                            {% elif hostel_type == 'Female Hostel' %}
+                                {{ url_for('app_views_female.delete_zone') }}
+                            {% endif %}"
+                            class="menu-item">Delete Zone</a>
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        {% for block in blocks %}
+                            <a href="{{ url_for('app_views_male.display_blocks', block_name=block.name) }}" class="card-link">
+                                <div class="card {{ block.color }}">
+                                    <div class="card-header">
+                                        <h3>{{ block.name }}</h3>
+                                        <p>Male Block</p>
+                                        <img src="https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35875.jpg?w=740" alt="Logo">
+                                    </div>
+                                    <div class="card-content">
+                                        <p>CampusStay</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <i class="fa fa-male fa-2x text-primary"></i>
+                                        <p>{{ block.occupancy }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>                   
+                </div>
+            </div>
+            <!-- blocks End -->
+
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">CampusStay</a>, All Right Reserved. 
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            Designed By <a href="https://htmlcodex.com">Antoine/Amadou</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('.static', filename='lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('.static', filename='js/insertion.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/search.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

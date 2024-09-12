@@ -23,6 +23,9 @@ class Student(BaseModel, Base):
     leave = relationship("Leave", back_populates="student",
                          cascade="all, delete-orphan")
 
+    user_id = Column(String(60),
+                     ForeignKey("users.id",
+                                ondelete="CASCADE"), nullable=True)
     """ __table_args__ = (
         UniqueConstraint('Country', 'Room_ID', name='uq_country_room'),
         UniqueConstraint('Zone', 'Room_ID', name='uq_zone_room')
