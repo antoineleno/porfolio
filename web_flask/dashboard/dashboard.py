@@ -97,7 +97,7 @@ def chart_data():
     return jsonify(data)
 
 
-@app_views_dashboard.route("admin/setting", methods=["GET"])
+@app_views_dashboard.route("admin/setting", methods=["GET", "POST"])
 @login_required
 def setting():
     """Dashboard Views"""
