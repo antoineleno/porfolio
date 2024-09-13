@@ -11,6 +11,7 @@ from models.building import Building
 from models.leave_request import Leave
 from models.student import Student
 from models.user import User
+from models.school import School
 #from models.facility import Facility
 from models import storage
 from models.maintenance_request import Maintenance
@@ -28,7 +29,7 @@ class CAMPUSCommand(cmd.Cmd):
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Hostel': Hostel,
                'Building': Building, 'Student': Student, 'Leave': Leave,
-               'Maintenance': Maintenance,
+               'Maintenance': Maintenance, 'School': School
                #'Facility': Facility
               }
 

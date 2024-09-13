@@ -12,6 +12,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.building import Building
 from models.user import User
+from models.school import School
 from models.student import Student
 from models.maintenance_request import Maintenance
 from models.leave_request import Leave
@@ -59,7 +60,8 @@ class DBStorage:
                       "Building": Building,
                       "Student": Student,
                       "Leave": Leave,
-                      "Maintenance": Maintenance
+                      "Maintenance": Maintenance,
+                      "School": School
                       #"Facility": Facility
                       }
         obj_result = {}
@@ -438,6 +440,8 @@ class DBStorage:
                 )
                 .join(Leave, Student.Student_ID == Leave.student_id)
                 .filter(Leave.status.is_(None))
+                .filter(Leave.c_sa == None)
+                .filter(Leave.c_school != None)
                 .limit(5)
                 .all()
             )
@@ -762,3 +766,9 @@ class DBStorage:
 
         results = self.__session.query(User.full_name, User.email).filter(User.id.in_(subquery)).all()
         return results
+
+    def get_school_list(self):
+        """Get infos of school"""
+        return self.__session.query(School.school_name, School.school_dean, School.email).all()
+
+    

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """dashboard module"""
 from dashboard import app_views_dashboard
-from flask import render_template
+from flask import render_template, request, redirect, url_for
 import models
 from flask import jsonify
 from models.base_model import BaseModel
@@ -11,6 +11,7 @@ from models.leave_request import Leave
 from models.student import Student
 from models import storage
 from flask_login import login_required, current_user
+from models.school import School
 
 
 @app_views_dashboard.route("admin/dashboard", methods=["GET"])
@@ -97,8 +98,34 @@ def chart_data():
     return jsonify(data)
 
 
+
+
+
+
+
+
+
 @app_views_dashboard.route("admin/setting", methods=["GET", "POST"])
 @login_required
 def setting():
-    """Dashboard Views"""
-    return render_template('setting.html')
+    """School administrator update"""
+    if request.method == "POST":
+        form_data = request.form.to_dict()
+        print(form_data)
+        return redirect(url_for('app_views_dashboard.setting'))
+    else:
+        school_admings = storage.get_school_list()
+        admins = []
+        for i in range(len(school_admings)):
+            value = {"school": school_admings[i][0], "dean": school_admings[i][1], "email": school_admings[i][2]}
+            admins.append(value)
+            # Assuming you are using Flask and SQLAlchemy
+
+        # Sample data for demonstration purposes
+        admins = [
+            {"id": 1, "name": "John Doe", "email": "john.doe@example.com"},
+            {"id": 2, "name": "Jane Smith", "email": "jane.smith@example.com"},
+            {"id": 3, "name": "Alice Johnson", "email": "alice.johnson@example.com"}
+        ]
+
+        return render_template('setting.html', admins=admins)

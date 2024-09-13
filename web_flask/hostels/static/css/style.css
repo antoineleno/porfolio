@@ -472,13 +472,12 @@ div.credit a {
 .card-container {
     display: flex;
     gap: 20px;
+    margin-left: 95px; /* Adjust this value to move the container further to the right */
+    flex-wrap: wrap; /* Allow cards to wrap to a new line */
+    justify-content: flex-start; /* Align cards to the left */
 }
 
-.card-container {
-    display: flex;
-    gap: 20px;
-    margin-left: 95px; /* Adjust this value to move the container further to the right */
-}
+
 
 .card-link {
     text-decoration: none;
