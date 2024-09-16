@@ -2,8 +2,8 @@
 ## Environment Setting up
 * Before running the app make sure that you have python and mysql install on your computer.
 * Get into the porfolio directory and run this command to set up the environement and run the app.
-    - **cd set_env_and_run
-    - ** ./run.sh my_sql_username
+    - cd set_env_and_run
+    - ./run.sh my_sql_username
 * example : ./run.sh antoine with antoine the username of mysql
 
 ## Adming User
