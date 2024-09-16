@@ -1,0 +1,4 @@
+create Hostel hostel_type="Male"
+create Hostel hostel_type="Female"
+create User full_name=Antoine_LENO username=campusstayadmin password=campusstayadmin
+create School school_name="----" school_dean="----" email="----"

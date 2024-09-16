@@ -32,6 +32,6 @@ class Leave(BaseModel, Base):
     overstay = Column(String(45))
     date_out = Column(DateTime)
     date_in = Column(DateTime)
-    student_id = Column(String(60), ForeignKey("students.Student_ID"),
+    student_id = Column(String(60), ForeignKey("students.Student_ID", ondelete="CASCADE"),
                         nullable=False)
     student = relationship("Student", back_populates="leave")

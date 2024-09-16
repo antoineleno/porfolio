@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <a href="{{ url_for('app_views_leaves.leaves') }}" class="nav-item nav-link"><i class="fa fa-door-open me-2"></i>Hostel leaves</a>
-                    <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Inquiries</a>
+                    <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Inquiries</a>
                     <a href="{{ url_for('app_views_report.report') }}" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>Hostel Report</a>
                 </div>
             </nav>
@@ -144,7 +144,7 @@
                                 </a>
                                 <hr class="dropdown-divider">
                             {% endfor %}
-                            <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="dropdown-item text-center">See all inquiries</a>
+                            <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="dropdown-item text-center">See all inquiries</a>
                         </div>                        
                     </div>
                     <div class="nav-item dropdown">
@@ -154,7 +154,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="{{ url_for('app_views_dashboard.setting') }}" class="dropdown-item">Settings</a>
                             <a href="{{ url_for('app_views_auth.log_out') }}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>

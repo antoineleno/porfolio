@@ -13,7 +13,7 @@ class User(BaseModel, Base, UserMixin):
     username = Column(String(128), nullable=False)
     email = Column(String(250), nullable=True)
     department = Column(String(100), nullable=True)
-    password_hash = Column(String(128), nullable=False)
+    password_hash = Column(String(1024), nullable=False)
 
 
     @property

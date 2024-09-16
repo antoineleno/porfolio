@@ -18,7 +18,7 @@ import io
 @login_required
 def buildings():
     """buildings views"""
-    if current_user.id == storage.get_first_user()[0]:
+    if request.method == "GET":
         n = 0
         hostel_type = ""
         if request.path == "/campusstay/admin/dashboard/male":
@@ -543,6 +543,7 @@ def delete_student():
         if request.method == "POST":
             s_id = request.form.get("student_id")
             user_id = storage.get_user_id_from_students(s_id)
+            storage.delete_all_student_leaves(s_id)
             answer = storage.object_to_delete("student", s_id)
 
             if answer == - 1:
@@ -816,7 +817,7 @@ def insertion_helper(name, s_id, s_country, s_room, s_zone):
     room_zones = storage.get_all_zones(room)
     hostel_zones = [z[0] for z in room_zones]
 
-    if room not in hostel_rooms or zone not in hostel_zones:
+    if room not in hostel_rooms or zone.upper() not in hostel_zones:
         message = """Room {} or Zone {} does't exist
         in the hostel.""".format(room, zone)
         r_type = "warning"
@@ -825,7 +826,7 @@ def insertion_helper(name, s_id, s_country, s_room, s_zone):
     args = "{} {} {} {} {}".format(student_name,
                                    student_id,
                                    country,
-                                   zone,
+                                   zone.upper(),
                                    room)
     arguments = shlex.split(args)
     answer = storage.insert_student(
@@ -836,7 +837,8 @@ def insertion_helper(name, s_id, s_country, s_room, s_zone):
         arguments[4])
 
     if answer == 2:
-        message = "Student insert in room {} Zone {}".format(room, zone)
+        message = "Student insert in room {} Zone {}".format(room,
+                                                             zone.upper())
         r_type = "success"
         new_user = """User full_name={} username={}
         password={}""".format(student_name.title(),

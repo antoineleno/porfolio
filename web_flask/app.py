@@ -23,7 +23,7 @@ CORS(app, resources={r'/campusstay/*': {'origins': '0.0.0.0'}})
 app.secret_key = "a2cf8cf6ad37b0d8eb2b51846aee0e34"
 app.config['UPLOAD_FOLDER'] = 'dashboard/static/img'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-app.config['ALLOWED_EXTENSIONS'] = {'png'} 
+app.config['ALLOWED_EXTENSIONS'] = {'png'}
 
 
 app.register_blueprint(app_views_dashboard)

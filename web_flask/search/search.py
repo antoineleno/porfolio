@@ -23,25 +23,30 @@ def search_room():
         if request.method == "POST":
             room_number = request.form.get('room_number')
             result = storage.get_all_room_residents(room_number)
-            if result[0][0] == 1:
-                hostel_type = "Male Hostel"
-            else:
-                hostel_type = "Female Hostel"
+
             if len(result) == 0:
                 hostel_type = room_number
-                return render_template("display_room.html", admin_name=admin_name,
+                return render_template("display_room.html",
+                                       admin_name=admin_name,
                                        result=result,
                                        room_number="Not Found in the hostel",
-                                       hostel_type=hostel_type)
+                                       hostel_type="")
             else:
-                return render_template("display_room.html", admin_name=admin_name,
-                                       result = result,
+                if result[0][0] == 1:
+                    hostel_type = "Male Hostel"
+                else:
+                    hostel_type = "Female Hostel"
+                return render_template("display_room.html",
+                                       admin_name=admin_name,
+                                       result=result,
                                        room_number=room_number,
                                        hostel_type=hostel_type)
     return render_template("search_room.html")
 
+
 @login_required
-@app_views_search.route("admin/dashboard/search_student", methods=["GET", "POST"])
+@app_views_search.route("admin/dashboard/search_student",
+                        methods=["GET", "POST"])
 def search_student():
     """Search views"""
     if current_user.id == storage.get_first_user()[0]:
@@ -82,5 +87,5 @@ def search_student():
                                        country=country,
                                        zone=zone,
                                        student_id=student_id)
-    
+
     return render_template("search_student.html")

@@ -16,7 +16,7 @@ auth = Blueprint('auth', __name__)
 def login():
     """Login method"""
     form = LoginForm()
-    
+
     if request.method == "POST":
         if form.validate_on_submit():
             username = form.username.data
@@ -37,7 +37,7 @@ def login():
                     flash('Incorrect username or Password')
 
             else:
-                message = """Account does not exist please ask the 
+                message = """Account does not exist please ask the
                 administrator to create your account
                 """
                 flash(message)
@@ -52,4 +52,3 @@ def log_out():
     form = LoginForm()
     logout_user()
     return render_template('login.html', form=form)
-

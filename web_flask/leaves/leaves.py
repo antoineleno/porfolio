@@ -9,6 +9,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
 @app_views_leaves.route("admin/dashboard/leaves", methods=["GET", "POST"])
 @login_required
 def leaves():
@@ -21,15 +22,18 @@ def leaves():
             student_id = request.form.get('student_id')
             action = request.form.get('action')
             if student_id and action:
+                s_e = storage.get_student_name_email_to_send_conf(student_id)
+                leave_id = storage.get_latest_leave_id(student_id)
                 if action == 'approve':
-                    storage.update_leave_approval(student_id, True)
+                    storage.update_leave_approval(student_id, True, leave_id)
                     flash(f'Student {student_id} leave approved.', 'success')
-                    s_name_email = storage.get_student_name_email_to_send_conf(student_id)
-                    send_leave_confirmation_to_student(s_name_email[0][0], s_name_email[0][1], "approved")
+                    send_leave_confirmation_to_student(s_e[0][0],
+                                                       s_e[0][1], "approved")
                 elif action == 'cancel':
-                    storage.update_leave_approval(student_id, False)
+                    storage.update_leave_approval(student_id, False, leave_id)
                     flash(f'Student {student_id} leave cancelled.', 'warning')
-                    send_leave_confirmation_to_student(current_user.full_name, current_user.email, "cancelled")
+                    send_leave_confirmation_to_student(s_e[0][0],
+                                                       s_e[0][1], "cancelled")
                 else:
                     flash('Invalid action.', 'danger')
 
@@ -37,6 +41,7 @@ def leaves():
         return render_template("hostel_leaves.html",
                                results=results,
                                admin_name=admin_name)
+
 
 @login_required
 @app_views_leaves.route("admin/dashboard/on_leave_students", methods=["GET"])
@@ -49,6 +54,7 @@ def on_leave_student():
                                results=results,
                                admin_name=admin_name)
 
+
 @login_required
 @app_views_leaves.route("admin/dashboard/overstay_students", methods=["GET"])
 def over_stay_students():
@@ -58,7 +64,6 @@ def over_stay_students():
         results = storage.get_over_stay_students()
         return render_template("overstay.html", admin_name=admin_name,
                                results=results)
-    
 
 
 def send_leave_confirmation_to_student(student_name, receiver_email, text):
@@ -66,11 +71,9 @@ def send_leave_confirmation_to_student(student_name, receiver_email, text):
     email = "lenomadeleineantoine@gmail.com"
     subject = "Leave Request Approval"
 
-    # Define the color based on the status
     status_color = "green" if text.lower() == "approved" else "red"
 
 
-    # HTML content with conditional coloring
     html_content = f"""
     <!DOCTYPE html>
     <html lang="en">

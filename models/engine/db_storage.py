@@ -651,15 +651,30 @@ class DBStorage:
             )
             .join(Leave, Student.Student_ID == Leave.student_id)
             .filter(Leave.c_sa == None)
-            .filter(Leave.c_school != None)
+            .filter(Leave.c_school == 1)
         )
         return query.all()
 
-    def update_leave_approval(self, student_id, res_type):
-        """Update c_sa column to 'yes' for a specific student leave"""
-        self.__session.query(Leave).filter_by(student_id=student_id).update({"c_sa": res_type,
-                                                                             "status": res_type})
+    def get_latest_leave_id(self, student_id):
+        """Get the latest leave id of the student"""
+        latest_leave_id = self.__session.query(Leave.leave_id)\
+            .filter(Leave.student_id == student_id)\
+            .order_by(Leave.created_at.desc())\
+            .limit(1)\
+            .scalar()
+        return latest_leave_id
+
+
+
+    def update_leave_approval(self, student_id, res_type, leave_id):
+        """Update c_sa column to 'yes' or 'no' for a specific student leave"""
+        self.__session.query(Leave)\
+            .filter(Leave.student_id == student_id, Leave.leave_id == leave_id)\
+            .update({"c_sa": res_type, "status": res_type})
         self.save()
+
+
+
 
     def get_on_leave_student(self):
         """Get all students who are on leave"""
@@ -751,10 +766,19 @@ class DBStorage:
         return query.all()
     
 
-    def update_leave_school_response(self, leave_id, res_type):
+    def update_leave_school_response(self, leave_id, res_type, c_sa=None):
         """update leave by school response"""
-        self.__session.query(Leave).filter_by(leave_id=leave_id).update({"c_school": res_type})
-        self.save()
+        if c_sa is not None:
+            self.__session.query(Leave).filter_by(leave_id=leave_id).update({
+                    "c_school": res_type,
+                    "c_sa": res_type,
+                    "status": res_type
+                })
+    
+            self.save()
+        else:
+            self.__session.query(Leave).filter_by(leave_id=leave_id).update({"c_school": res_type})
+            self.save()
 
     def check_leave_status(self, leave_id):
         """Check leave status before processing"""
@@ -769,6 +793,43 @@ class DBStorage:
 
     def get_school_list(self):
         """Get infos of school"""
-        return self.__session.query(School.school_name, School.school_dean, School.email).all()
+        return self.__session.query(School.school_id, School.school_name, School.school_dean, School.email).all()
 
+    def delete_school(self, school_id):
+        """Delete schol informations"""
+        school_to_delete = self.__session.query(School).filter(School.school_id == school_id).first()
+        self.delete(school_to_delete)
+        self.save()
+
+    def check_school_existence(self):
+        """Check if school alread exist"""
+        all_schools = []
+        for i in range(len(self.__session.query(School.school_name).all())):
+            all_schools.append(self.__session.query(School.school_name).all()[i][0])
+        return all_schools
+
+    def get_school_email(self, school):
+        """Get the email of the school"""
+        return self.__session.query(School.school_dean, School.email).filter(School.school_name == school).all()
+
+
+    def get_student_leaves_infos(self, leave_id):
+        """Get leaves infos from leave_id"""
+        subquery = select(Leave.student_id).where(Leave.leave_id == leave_id).scalar_subquery()
+
+        query = select(Student.user_id).where(Student.Student_ID .in_(subquery))
+        result = self.__session.execute(query)
+
+        user_ids = [row[0] for row in result]
+
+        return user_ids[0]
+
+    def check_leave_in_progress(self, student_id):
+        """Check if a student have already a leave being processing"""
+        result = self.__session.query(Leave).filter(Leave.student_id == student_id, Leave.status == None).all()
+        return len(result)
     
+    def delete_all_student_leaves(self, student_id):
+        """Delete all student leave before deleting the student"""
+        self.__session.query(Leave).filter_by(student_id=student_id).delete(synchronize_session='fetch')
+        self.save()

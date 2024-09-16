@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """dashboard module"""
 from user import app_views_user
+from leaves.leaves import send_leave_confirmation_to_student
 from flask import render_template, request, url_for, redirect, flash
 from user import app_views_user
 from flask_login import login_required, current_user
@@ -142,6 +143,15 @@ def user_profile():
         else:
             return redirect(url_for("app_views_user.user_profile"))
     else:
+        schools = []
+        all_infos = storage.get_school_list()
+
+        for i in range(len(all_infos)):
+            if all_infos[i][1] != "----":
+                value = {"school_id": all_infos[i][0],
+                         "school_name": all_infos[i][1]}
+                schools.append(value)
+
         return render_template('user_profile.html',
                                profile_path=profile_path,
                                room_number=room_number,
@@ -149,7 +159,8 @@ def user_profile():
                                Student_id=Student_id,
                                email=email,
                                school=school,
-                               username=username)
+                               username=username,
+                               schools=schools)
 
 
 @app_views_user.route("user/leave", methods=["GET", "POST"])
@@ -168,34 +179,65 @@ def user_leaves():
     Student_name = result[0][1]
     Student_id = result[0][2]
 
+    p_checking = storage.get_user_object(current_user.id)
+
     if request.method == "POST":
+        file_path = "./dashboard/static/img/{}.png".format(current_user.id)
+
+        if p_checking.email is None or p_checking.department is None or not os.path.exists(file_path):
+            message = """Update your full profile including
+            profile picture first before applying"""
+            flash(message, "warning")
+            return redirect(url_for('app_views_user.user_profile'))
+
+        if storage.check_leave_in_progress(Student_id) != 0:
+            message = """Leave not submitted,
+            You already have an application being processed"""
+            flash(message, "warning")
+            return redirect(url_for('app_views_user.user_profile'))
+
         reason = request.form.get('reason')
-        place = request.form.get('place')
+        s_place = request.form.get('place')
         Start_date = request.form.get('start_date')
         End_date = request.form.get('end_date')
         description = request.form.get('reason_description')
 
+        place = s_place
+        if " " in s_place:
+            place = s_place.replace(" ", "_")
         student_id = storage.get_all_user_infos(current_user.id)[0][2]
-        new_leaves = "Leave student_id={} start_date={} end_date={} place={} description={}".format(student_id,
-                                                                                                    Start_date,
-                                                                                                    End_date,
-                                                                                                    place,
-                                                                                                    reason,
-                                                                                                    description)
-        
+        new_leaves = (
+            """Leave student_id={} start_date={} end_date={}
+            place={} description={}""".format(
+                student_id,
+                Start_date,
+                End_date,
+                place,
+                reason,
+                description))
 
         storage.create_a_new_object(new_leaves)
-        leave_id = storage.get_leaves_object(student_id, Start_date, End_date, place)[0][0]
-    
-        mail_answer = send_application_to_school("lenoantoine2000@gmail.com", "LENO",
-                                                 datetime.strptime(Start_date, '%Y-%m-%dT%H:%M').strftime('%d-%m-%Y'),
-                                                 datetime.strptime(End_date, '%Y-%m-%dT%H:%M').strftime('%d-%m-%Y') ,
-                                                 reason,
-                                                 current_user.full_name, student_id, leave_id, "lenoantoine@gmail.com", description)
+        leave_id = storage.get_leaves_object(student_id, Start_date,
+                                             End_date, s_place)[0][0]
+        school_infos = storage.get_school_email(current_user.department)
+
+        mail_answer = send_application_to_school(
+            school_infos[0][1],
+            school_infos[0][0],
+            datetime.strptime(Start_date,
+                              '%Y-%m-%dT%H:%M').strftime('%d-%m-%Y'),
+            datetime.strptime(End_date,
+                              '%Y-%m-%dT%H:%M').strftime('%d-%m-%Y'),
+            reason, current_user.full_name, student_id,
+            leave_id, current_user.email,
+            description, s_place)
+
         message = ""
         r_type = ""
         if mail_answer == 1:
-            message = """Your hostel leave application has been successfully submitted"""
+            message = """Your hostel leave application
+            has been successfully submitted,
+            you will receive a confirmation email"""
             r_type = "success"
         else:
             message = """You hostel leave application has not been submitted"""
@@ -204,9 +246,6 @@ def user_leaves():
         flash(message, "success")
         f_url = "app_views_user.user_leaves"
         return redirect(url_for(f_url))
-
-
-
     return render_template('user_leaves.html', profile_path=profile_path,
                            room_number=room_number,
                            Student_name=Student_name,
@@ -229,7 +268,10 @@ def get_image_dimensions(file):
     return img.size
 
 
-def send_application_to_school(receiver_email, dean_last_name, start_date, end_date, reason_for_leave, student_name, student_id, request_id, contact_info, r_description):
+def send_application_to_school(receiver_email, dean_last_name,
+                               start_date, end_date, reason_for_leave,
+                               student_name, student_id, request_id,
+                               contact_info, r_description, place):
     """Send the leave application via mail"""
     email = "lenomadeleineantoine@gmail.com"
     subject = "Request for Hostel Leave"
@@ -243,8 +285,6 @@ def send_application_to_school(receiver_email, dean_last_name, start_date, end_d
         print(f"Error: The file {html_file_path} was not found.")
         return -1
 
-
-
     html_content = html_content.replace('[Dean\'s Last Name]', dean_last_name)
     html_content = html_content.replace('[Start Date]', start_date)
     html_content = html_content.replace('[End Date]', end_date)
@@ -252,10 +292,10 @@ def send_application_to_school(receiver_email, dean_last_name, start_date, end_d
     html_content = html_content.replace('[Student Name]', student_name)
     html_content = html_content.replace('[Student ID]', student_id)
     html_content = html_content.replace('[Request ID]', request_id)
-    html_content = html_content.replace('[Your Contact Information]', contact_info)
+    html_content = html_content.replace('[Your Contact Information]',
+                                        contact_info)
     html_content = html_content.replace('[Description]', r_description)
-
-
+    html_content = html_content.replace('[Place]', place)
 
     msg = MIMEMultipart()
     msg['From'] = email
@@ -274,9 +314,6 @@ def send_application_to_school(receiver_email, dean_last_name, start_date, end_d
         return -1
 
 
-
-
-
 @app_views_user.route('/approve_leave')
 def approve_leave():
     """Approve leave request"""
@@ -288,10 +325,11 @@ def approve_leave():
         response_type = "Proccessed"
     else:
         response_type = "approved"
-        message ="Leave request has been successfully approved"
+        message = "Leave request has been successfully approved"
         storage.update_leave_school_response(request_id, True)
     return render_template('request_result.html', response_type=response_type,
                            message=message)
+
 
 @app_views_user.route('/cancel_leave')
 def cancel_leave():
@@ -304,8 +342,13 @@ def cancel_leave():
     else:
         response_type = "cancelled"
         message = "Leave request successfully cancelled"
-        storage.update_leave_school_response(request_id, False)
+        user_id = storage.get_student_leaves_infos(request_id)
+        receiver_email = storage.get_user_object(user_id).email
+        student_name = storage.get_user_object(user_id).full_name
+
+        send_leave_confirmation_to_student(student_name,
+                                           receiver_email, "cancelled")
+        storage.update_leave_school_response(request_id, False, False)
+
     return render_template('request_result.html', response_type=response_type,
-                           message = message)
-
-
+                           message=message)

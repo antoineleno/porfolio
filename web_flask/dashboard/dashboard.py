@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """dashboard module"""
 from dashboard import app_views_dashboard
-from flask import render_template, request, redirect, url_for
+from flask import render_template, flash, request, redirect, url_for
 import models
 from flask import jsonify
 from models.base_model import BaseModel
@@ -98,34 +98,64 @@ def chart_data():
     return jsonify(data)
 
 
-
-
-
-
-
+@app_views_dashboard.route("admin/setting/delete", methods=["GET", "POST"])
+@login_required
+def delete():
+    """delete a row of school"""
+    if request.method == "POST":
+        delete_id = request.form.get('delete_id')
+        if delete_id:
+            storage.delete_school(delete_id)
+            return redirect(url_for('app_views_dashboard.setting'))
+    else:
+        return redirect(url_for('app_views_dashboard.setting'))
 
 
 @app_views_dashboard.route("admin/setting", methods=["GET", "POST"])
 @login_required
 def setting():
     """School administrator update"""
+
     if request.method == "POST":
-        form_data = request.form.to_dict()
-        print(form_data)
-        return redirect(url_for('app_views_dashboard.setting'))
+        new_school = request.form.getlist('new_school[]')
+        new_dean = request.form.getlist('new_dean[]')
+        new_email = request.form.getlist('new_email[]')
+
+        if (new_school and new_dean and new_email and
+                new_school[0] and new_dean[0] and new_email[0]):
+
+            school_exits = storage.check_school_existence()
+            if new_school[0].upper() in school_exits:
+                message = "The School exist aleady please add a new school"
+                flash(message, "warning")
+                my_url = "app_views_dashboard.setting"
+                return redirect(url_for(my_url))
+
+            school = new_school[0]
+            if " " in new_school[0]:
+                school = new_school[0].replace(" ", "_")
+            dean = new_dean[0]
+            if " " in new_dean[0]:
+                dean = new_dean[0].replace(" ", "_")
+            email = new_email[0]
+            if " " in new_email[0]:
+                email = new_email[0].replace(" ", "_")
+
+            args = "School school_name={} school_dean={} email={}".format(
+                school.upper(), dean, email)
+            storage.create_a_new_object(args)
+            return redirect(url_for('app_views_dashboard.setting'))
+
+        else:
+            return redirect(url_for('app_views_dashboard.delete'))
     else:
         school_admings = storage.get_school_list()
         admins = []
         for i in range(len(school_admings)):
-            value = {"school": school_admings[i][0], "dean": school_admings[i][1], "email": school_admings[i][2]}
+            value = {"id": school_admings[i][0],
+                     "school": school_admings[i][1],
+                     "dean": school_admings[i][2],
+                     "email": school_admings[i][3]}
             admins.append(value)
-            # Assuming you are using Flask and SQLAlchemy
-
-        # Sample data for demonstration purposes
-        admins = [
-            {"id": 1, "name": "John Doe", "email": "john.doe@example.com"},
-            {"id": 2, "name": "Jane Smith", "email": "jane.smith@example.com"},
-            {"id": 3, "name": "Alice Johnson", "email": "alice.johnson@example.com"}
-        ]
 
         return render_template('setting.html', admins=admins)

@@ -23,8 +23,10 @@
     <!-- Libraries Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('.static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('.static', filename='lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+    
 
     <!-- Customized Bootstrap Stylesheet -->
+    
     <link rel="stylesheet" href="{{ url_for('.static', filename='css/bootstrap.min.css') }}">
 
     <!-- Template Stylesheet -->
@@ -70,7 +72,7 @@
                         </div>
                     </div>
                     <a href="{{ url_for('app_views_leaves.leaves') }}" class="nav-item nav-link"><i class="fa fa-door-open me-2"></i>Hostel leaves</a>
-                    <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Inquiries</a>
+                    <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Inquiries</a>
                     <a href="{{ url_for('app_views_report.report') }}" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>Hostel Report</a>
                 </div>
             </nav>
@@ -144,7 +146,7 @@
                                 </a>
                                 <hr class="dropdown-divider">
                             {% endfor %}
-                            <a href="{{ url_for('app_views_inquiries.inquiries') }}" class="dropdown-item text-center">See all inquiries</a>
+                            <a href="{{ url_for('app_views_dashboard.dashboard') }}" class="dropdown-item text-center">See all inquiries</a>
                         </div>                        
                     </div>
                     <div class="nav-item dropdown">
@@ -154,7 +156,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="{{ url_for('app_views_dashboard.setting') }}" class="dropdown-item">Settings</a>
                             <a href="{{ url_for('app_views_auth.log_out') }}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
@@ -215,7 +217,7 @@
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">Antoine/Amadou</a>
+                            Designed By <a href="#">Antoine/Amadou</a>
                         </div>
                     </div>
                 </div>
@@ -229,6 +231,7 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
+    <!-- JavaScript Libraries -->    
     <!-- JavaScript Libraries -->    
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
