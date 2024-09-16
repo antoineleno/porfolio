@@ -15,6 +15,7 @@ from flask_login import LoginManager
 from auth import app_views_auth
 from user import app_views_user
 from models import storage
+from flask import redirect,  url_for
 
 
 app = Flask(__name__)
@@ -45,6 +46,10 @@ login_manager.login_view = 'app_views_auth.login'
 def load_user(id):
     """Load current user session"""
     return storage.get_user_object(id)
+
+@app.route('/')
+def home():
+    return redirect(url_for('app_views_auth.login'))
 
 
 @app.teardown_appcontext
