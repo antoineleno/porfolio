@@ -14,6 +14,6 @@
 ## Student user
 * On localhost, go to [http://127.0.0.1:5000/campusstay/login](http://127.0.0.1:5000/campusstay/login) to log in with the following information:
   - Username: room_number-zone
-  - Password: student Id
+  - Password: STUDENT ID
 
   
