@@ -33,19 +33,18 @@ class DBStorage:
     def __init__(self):
         """Contructor method
         """
-        db_user = getenv("CAMPUS_MYSQL_USER")
+        """ db_user = getenv("CAMPUS_MYSQL_USER")
         db_password = getenv("CAMPUS_MYSQL_PWD")
         db_name = getenv("CAMPUS_MYSQL_DB")
         host = getenv("CAMPUS_MYSQL_HOST")
-        env = getenv("CAMPUS_ENV")
+        env = getenv("CAMPUS_ENV")"""
 
         self.__engine = create_engine(
-                    'mysql+mysqldb://{}:{}@{}/{}'
-                    .format(db_user, db_password, host,
-                            db_name), pool_pre_ping=True)
+                    'mysql+mysqldb://campus_dev:campus_dev_pwd@localhost/campus_dev_db',
+                    pool_pre_ping=True)
 
-        if env == "test":
-            Base.metadata.drop_all(self.__engine)
+        """if env == "test":
+            Base.metadata.drop_all(self.__engine)"""
 
     def all(self, cls=None):
         """all to retrieve all records from DB
