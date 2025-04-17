@@ -94,19 +94,7 @@ Visit the following link and enter the credentials provided above to be connecte
 </p>
 
 
-## ✅ *4. Tests*
-*Run the following command from the root of the project directory to execute all tests and verify the software functionality :*
-
-### *For version 1*
-```bash
-cd; cd EduPathway/versions/v1; python3 -m unittest discover -v tests
-```
-### *For version 2*
-```bash
-cd; cd EduPathway/versions/v2; python3 -m unittest discover -v tests
-```
-
-## 🏅 *5. Badge*
+## 🏅 *4. Badge*
 <p align="center">
   <a href="https://github.com/antoineleno/EduPathway/fork" target="blank">
     <img src="https://img.shields.io/github/forks/antoineleno/EduPathway?style=flat-square" alt="aEduPathway forks"/>
