@@ -18,53 +18,39 @@
 *1. Clone the repository*
 
 ```bash
-git clone https://github.com/antoineleno/EduPathway.git
+git clone https://github.com/antoineleno/porfolio
 ```
 
 *2. Change the working directory*
 
 ```bash
-cd EduPathway
+cd porfolio
 ``` 
 
-*3. Create a virtual environment*
+*3. Create and activate the virtual environment*
 
 ```bash
-python3 -m venv myenv
-```
-*4. Activate the virtual environment*
-
-```bash
-source myenv/bin/activate
+python3 -m venv myenv; source myenv/bin/activate
 ```
 
-*5. Install dependencies*
+*4. Install dependencies*
 
 ```bash
 pip install -r requirements/requirements.txt
 ```
-*6. Set up the database*
+*5. Set up the database*
 ```bash
-sudo mysql -u root -p < requirements/database_setup.sql
-sudo mysql -u root -p < requirements/edupathway_db.sql
+sudo mysql -u root -p < requirements/set_up_db.sql
+sudo mysql -u root -p < requirements/campus_dev_db_backup.sql
 ```
-*7. Set up the trigger for room*
-```bash
-sudo mysql -u root -p < requirements/room_trigger.sql
-```
-
-*8. Change the working directory and Run the app*
+*6. Change the working directory and Run the app*
 
 ### *For version 1*
 
 ```bash
-cd; cd EduPathway/versions/v1/web_flask; python3 app.py
+cd; cd porfolio/web_flask; python3 app.py
 ```
-### *For version 2*
 
-```bash
-cd; cd EduPathway/versions/v2/web_flask; python3 app.py
-```
 🌟 You are all set!
 
 
