@@ -45,7 +45,7 @@ sudo mysql -u root -p < requirements/campus_dev_db_backup.sql
 ```
 *6. Create hostel for male and female using the console*
 ```bash
-CAMPUS_TYPE_STORAGE=db python3 console.py
+cd; cd porfolio; CAMPUS_TYPE_STORAGE=db python3 console.py
 ```
 
 ```bash
