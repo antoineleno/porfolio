@@ -93,8 +93,13 @@ Visit the following link and enter the credentials provided above to be connecte
   </a>
 </p>
 
+##  *4. Run the command below to launch the console, and refer to the documentation for available commands.*
 
-## 🏅 *4. Badge*
+```bash
+python3 -m venv myenv; source myenv/bin/activate
+```
+
+## 🏅 *5. Badge*
 <p align="center">
   <a href="https://github.com/antoineleno/EduPathway/fork" target="blank">
     <img src="https://img.shields.io/github/forks/antoineleno/EduPathway?style=flat-square" alt="aEduPathway forks"/>
