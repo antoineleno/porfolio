@@ -62,6 +62,7 @@ cd; cd porfolio/web_flask; python3 app.py
 Visit the following link and enter the credentials provided above to be connected as admin:
 
 👉 [Campusstay Login](http://127.0.0.1:5000/campusstay/login)
+> Tip: Right-click the link and choose "Open in new tab" for easier access.
 
 ## 👯 *7. Code Contributors*
 
@@ -74,55 +75,20 @@ Visit the following link and enter the credentials provided above to be connecte
 
 > ### 📫 *How to reach us*
 <p align="center">
-  <strong>Antoine</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Nouhan</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Alisena</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Maria</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Rashidul</strong>
-  <br>
+  <strong>Antoine LENO</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Amadou BAH</strong><br>
   <a href="mailto:lenoantoine2000@gmail.com">
-      <img src="versions/v2/web_flask/home/static/img/email.png" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://github.com/antoineleno">
-      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" />
-  </a>
+      <img src="web_flask/auth/static/images/email.png" alt="Instagram" height="20" width="20" /></a>
+    <a href="https://github.com/antoineleno">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
   <a href="https://instagram.com/antoineleno7" target="_blank">
     <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20"/>
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="mailto:nouhandoumbouya655@gmail.com">
-      <img src="versions/v2/web_flask/home/static/img/email.png" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://github.com/NouhanDoumbouya123">
-      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://www.instagram.com/doumbouyanouhan1234?igsh=cmdqd3ltdDFnam9u" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20"/>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="mailto:ali.danishwer@student.aiu.edu.my">
-      <img src="versions/v2/web_flask/home/static/img/email.png" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://github.com/alisenadanishwer">
-      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://www.instagram.com/alisena.danishwer?igsh=bmFkamR3ZzAzejk4" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20"/>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="mailto:mariaiqbal112003@gmail.com">
-      <img src="versions/v2/web_flask/home/static/img/email.png" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://github.com/Maria200311">
-      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://www.instagram.com/mariaiqbal200311?igsh=dTkwMnVmZnRtc3hy" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20"/>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="mailto:mdislam0996@gmail.com">
-    <img src="versions/v2/web_flask/home/static/img/email.png" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://github.com/mrirashid">
-      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" />
-  </a>
-  <a href="https://www.instagram.com/mri_rashid?igsh=MWdjbTM4dWk0ZGQ1OA==" target="_blank">
+  <a href="mailto:bamadodu634@gmail.com">
+    <img src="web_flask/auth/static/images/email.png" alt="Instagram" height="20" width="20" /></a>
+    <a href="https://github.com/Amadou001">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
+  <a href="https://instagram.com/amadou4176" target="_blank">
     <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20" />
   </a>
 </p>
