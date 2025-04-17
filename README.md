@@ -45,8 +45,6 @@ sudo mysql -u root -p < requirements/campus_dev_db_backup.sql
 ```
 *6. Change the working directory and Run the app*
 
-### *For version 1*
-
 ```bash
 cd; cd porfolio/web_flask; python3 app.py
 ```
@@ -56,14 +54,11 @@ cd; cd porfolio/web_flask; python3 app.py
 
 ## 📘  *How to use this project*
 *After completing the installation steps, an admin, and two students users will be created with the following credentials :*
-> - ***email***&nbsp;: *edupathwayadmin@gmail.com*
-> - ***password*** : *edupathwaypassword*
+> - ***username***&nbsp;: *campusstay*
+> - ***password*** : *campusstaypassword*
 
-> - ***email***&nbsp;: *nouhandoumbouya@gmail.com*
-> - ***password*** : *nouhanpassword*
-
-> - ***email***&nbsp;: *alisena@gmail.com*
-> - ***password*** : *alisenapassword*
+*Visit the following link the enter the abovce credentiels*
+*[http://127.0.0.1:5000/campusstay/login] (Campusstay.com)
 
 ## 👯 *3. Code Contributors*
 
