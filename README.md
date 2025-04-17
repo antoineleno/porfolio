@@ -96,7 +96,7 @@ Visit the following link and enter the credentials provided above to be connecte
 ##  *4. Console*
 > Run the command below to launch the console, and refer to the documentation for available commands.
 ```bash
-python3 -m venv myenv; source myenv/bin/activate
+cd; cd porfolio; CAMPUS_TYPE_STORAGE=db python3 console.py
 ```
 
 ## 🏅 *5. Badge*
