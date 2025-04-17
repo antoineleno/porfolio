@@ -93,8 +93,8 @@ Visit the following link and enter the credentials provided above to be connecte
   </a>
 </p>
 
-##  *4. Run the command below to launch the console, and refer to the documentation for available commands.*
-
+##  *4. Console*
+> Run the command below to launch the console, and refer to the documentation for available commands.
 ```bash
 python3 -m venv myenv; source myenv/bin/activate
 ```
