@@ -53,25 +53,22 @@ cd; cd porfolio/web_flask; python3 app.py
 
 
 ## 📘  *How to use this project*
-*After completing the installation steps, an admin, and two students users will be created with the following credentials :*
+*After completing the installation steps, an admin user will be created with the following credentials :*
 > - ***username***&nbsp;: *campusstay*
 > - ***password*** : *campusstaypassword*
 
 ## 🔐 Login Instructions
 
-Visit the following link and enter the credentials provided above:
+Visit the following link and enter the credentials provided above to be connected as admin:
 
 👉 [Campusstay Login](http://127.0.0.1:5000/campusstay/login)
 
-## 👯 *3. Code Contributors*
+## 👯 *7. Code Contributors*
 
 <p align="center">
-  <a href="https://github.com/antoineleno/EduPathway/graphs/contributors">
-    <img src="versions/v2/web_flask/home/static/img/antoineleno.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-    <img src="versions/v2/web_flask/home/static/img/nouhandoubouya.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-    <img src="versions/v2/web_flask/home/static/img/alisena_d.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-    <img src="versions/v2/web_flask/home/static/img/maria_iqbal.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-    <img src="versions/v2/web_flask/home/static/img/rashdul.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+  <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
+    <img src="web_flask/auth/static/images/leno.png" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+    <img src="web_flask/auth/static/images/bah.png" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover;">
   </a>
 </p>
 
