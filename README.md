@@ -43,10 +43,22 @@ pip install -r requirements/requirements.txt
 sudo mysql -u root -p < requirements/set_up_db.sql
 sudo mysql -u root -p < requirements/campus_dev_db_backup.sql
 ```
-*6. Change the working directory and Run the app*
+*6. Create hostel for male and female using the console*
 
 ```bash
-cd; cd porfolio/web_flask; python3 app.py
+create Hostel hostel_type="Male"
+```
+```bash
+create Hostel hostel_type="Female"
+```
+```bash
+quit
+```
+
+*7. Change the working directory and Run the app*
+
+```bash
+cd; cd porfolio/web_flask; CAMPUS_TYPE_STORAGE=db python3 app.py
 ```
 
 🌟 You are all set!
