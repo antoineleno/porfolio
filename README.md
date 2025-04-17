@@ -64,7 +64,7 @@ Visit the following link and enter the credentials provided above to be connecte
 👉 [Campusstay Login](http://127.0.0.1:5000/campusstay/login)
 > Tip: Right-click the link and choose "Open in new tab" for easier access.
 
-## 👯 *7. Code Contributors*
+## 👯 *3. Code Contributors*
 
 <p align="center">
   <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
