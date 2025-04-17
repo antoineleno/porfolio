@@ -57,8 +57,11 @@ cd; cd porfolio/web_flask; python3 app.py
 > - ***username***&nbsp;: *campusstay*
 > - ***password*** : *campusstaypassword*
 
-*Visit the following link the enter the abovce credentiels*
-[http://127.0.0.1:5000/campusstay/login](Campusstay.com)
+## 🔐 Login Instructions
+
+Visit the following link and enter the credentials provided above:
+
+👉 [Campusstay Login](http://127.0.0.1:5000/campusstay/login)
 
 ## 👯 *3. Code Contributors*
 
