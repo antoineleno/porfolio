@@ -108,6 +108,14 @@ Visit the following link and enter the credentials provided above to be connecte
   </a>
 </p>
 
+## 🎯 *Roles and Contributions*
+
+| **Contributor**           | **Role**                  | **Contributions** |
+|---------------------------|---------------------------|-------------------|
+| **Antoine Leno**          | Backend Developer          | Full backend development (Flask, MySQL), database handling, and logic implementation. |
+| **Amadou Bah**      | Frontend Developer         | Front-end development (HTML, CSS, Bootstrap), template integration, UI customization, and JavaScript interactivity. <br> &nbsp;&nbsp;• Developed admin dashboard for managing programs, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;courses, resources, projects, and quizzes. <br> &nbsp;&nbsp;• Built program synopsis page displaying all related courses, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resources, projects, and quizzes. <br> &nbsp;&nbsp;• Developed course content pages with access to resources, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;projects, and quizzes. |
+
+
 ##  *4. Console*
 > Run the command below to launch the console, and refer to the documentation for available commands.
 ```bash
