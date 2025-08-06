@@ -6,9 +6,8 @@ from flask import render_template, flash, url_for, request, redirect
 from models import storage
 from flask_login import login_required, current_user
 from models import storage
-import os
+import pycountry  # Add this import
 import shlex
-import pycountry
 import csv
 import io
 
@@ -190,7 +189,7 @@ def insert_student_randomlly():
 
         if request.path == "/campusstay/admin/dashboard/female_insertion":
             n = 2
-            name = "female"
+            H_name = "female"
             hostel_type = "Female Hostel"
 
         if request.method == "POST":
@@ -256,8 +255,13 @@ def insert_student_randomlly():
             f_url = "app_views_{}.operation_result".format(H_name)
             return redirect(url_for(f_url))
 
-        return render_template("insertion.html", admin_name=admin_name,
-                               hostel_type=hostel_type)
+        else:
+            # Add countries list for GET requests
+            countries = [(country.alpha_2, country.name) for country in pycountry.countries]
+            return render_template("insertion.html", 
+                                   admin_name=admin_name,
+                                   hostel_type=hostel_type,
+                                   countries=countries)
     else:
         return render_template('404.html')
 
@@ -279,29 +283,39 @@ def insert_student_manuelly():
         hostel_type = "Male Hostel"
         n = 1
         H_name = "male"
+        
         if request.path == f_path:
             n = 2
-            name = "female"
+            H_name = "female"
             hostel_type = "Female Hostel"
 
         if request.method == "POST":
-
             name = request.form.get("student_name").title()
             s_id = request.form.get("student_id")
             s_room = request.form.get("room_number")
             s_zone = request.form.get("room_zone")
             country_code = request.form.get("country")
-            s_country = pycountry.countries.get(alpha_2=country_code).name
-            message, r_type = insertion_helper(name, s_id,
-                                               s_country,
-                                               s_room,
-                                               s_zone)
+            
+            try:
+                s_country = pycountry.countries.get(alpha_2=country_code).name
+                message, r_type = insertion_helper(name, s_id,
+                                                   s_country,
+                                                   s_room,
+                                                   s_zone)
+            except AttributeError:
+                message = "Invalid country code selected"
+                r_type = "warning"
+            
             flash(message, r_type)
             f_url = "app_views_{}.operation_result".format(H_name)
             return redirect(url_for(f_url))
-        return render_template("student_manuel_insertion.html",
-                               admin_name=admin_name,
-                               hostel_type=hostel_type)
+        else:
+            # Add countries list for GET requests
+            countries = [(country.alpha_2, country.name) for country in pycountry.countries]
+            return render_template("student_manuel_insertion.html",
+                                   admin_name=admin_name,
+                                   hostel_type=hostel_type,
+                                   countries=countries)
     else:
         return render_template('404.html')
 
